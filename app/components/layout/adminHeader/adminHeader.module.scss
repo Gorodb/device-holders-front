@@ -1,0 +1,32 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 15px 30px;
+  background: var(--white);
+  color: var(--black);
+  gap: 10px 40px;
+  box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+  margin-bottom: 20px;
+}
+
+.links {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.children {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.menuItem {
+  &:hover {
+    color: var(--gray-dark);
+  }
+}
+
+@media (max-width: 765px) {
+  .header {
+    grid-template-columns: 1fr;
+  }
+}

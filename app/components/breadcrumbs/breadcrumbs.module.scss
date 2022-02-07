@@ -1,0 +1,17 @@
+.breadcrumb {
+  color: var(--breadcrumb-primary);
+
+  &:not(:last-child):after {
+    content: '|';
+    padding: 0 7px;
+  }
+
+  &:hover {
+    opacity: .8;
+  }
+}
+
+.last {
+  color: var(--breadcrumb-last);
+  cursor: default;
+}

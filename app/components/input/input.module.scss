@@ -1,0 +1,37 @@
+.inputContainer {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin: 5px 0 25px 0;
+}
+
+.input {
+  padding: 15px 10px;
+  background: var(--white);
+  border: solid 1px var(--gray-light);
+  border-radius: 4px;
+  outline: none;
+
+  &::placeholder {
+    color: var(--text-addition);
+  }
+}
+
+.passwordInputBlock {
+  display: flex;
+}
+
+.passwordInput {
+  width: 100%;
+}
+
+.icon {
+  cursor: pointer;
+  margin-left: -30px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.label {
+  margin: 10px;
+}

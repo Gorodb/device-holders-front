@@ -1,0 +1,53 @@
+.button {
+  height: 50px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  color: var(--black);
+  padding: 10px 15px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  outline: none;
+  border-radius: 6px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.transparent {
+  background: transparent;
+  border: 1px solid var(--gray-dark);
+}
+
+.primary {
+  background: var(--background-light);
+}
+
+.success {
+  background: var(--background-success);
+  color: var(--white);
+}
+
+.error {
+  background: var(--red);
+  color:var(--white);
+}
+
+.black {
+  background: var(--gray-dark);
+  color:var(--white);
+}
+
+.white {
+  background: var(--white);
+  color:var(--gray-dark);
+}
+
+.fullSize {
+  width: 100%;
+}
+
+.disabled {
+  cursor: default;
+}

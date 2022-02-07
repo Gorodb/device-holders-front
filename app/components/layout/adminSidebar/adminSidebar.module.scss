@@ -1,0 +1,31 @@
+.sidebar {
+  display: grid;
+  grid-template-rows: 60px 1fr;
+  background: var(--admin-menu);
+  color: var(--admin-menu-text);
+}
+
+.adminHead {
+  font-size: 22px;
+  padding: 15px;
+  cursor: default;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  padding: 15px 0 0 15px;
+
+  &:hover {
+    color: var(--admin-menu-text-hover);
+  }
+}
+
+@media (max-width: 765px) {
+  .header {
+    grid-template-rows: 1fr;
+  }
+}

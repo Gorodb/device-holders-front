@@ -1,0 +1,220 @@
+@font-face {
+  font-display: swap;
+  font-family: 'RostelecomBasis';
+  src: url('../public/fonts/RostelecomBasis-Light.woff') format('woff'), url('../public/fonts/RostelecomBasis-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'RostelecomBasis';
+  src: url('../public/fonts/RostelecomBasis-Regular.woff') format('woff'), url('../public/fonts/RostelecomBasis-Regular.woff') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'RostelecomBasis';
+  src: url('../public/fonts/RostelecomBasis-Medium.woff') format('woff'), url('../public/fonts/RostelecomBasis-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  color: var(--black);
+  font-family: RostelecomBasis, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+table {
+  border-spacing: unset;
+
+}
+
+th, tr, td {
+  text-align: left;
+  border: none;
+}
+
+th, td {
+  padding: 15px 10px;
+
+  &:first-child {
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--pagination-text);
+}
+
+.active {
+  font-weight: 500;
+}
+
+.prev a {
+  content: "";
+  display: flex;
+  cursor: pointer;
+  border-bottom: 2px solid var(--pagination-arrow);
+  border-left: 2px solid var(--pagination-arrow);
+  transform: rotate(45deg);
+  height: 9px;
+  width: 9px;
+  margin: 0 6px;
+}
+
+.next a {
+  content: "";
+  display: flex;
+  cursor: pointer;
+  border-bottom: 2px solid var(--pagination-arrow);
+  border-left: 2px solid var(--pagination-arrow);
+  height: 9px;
+  width: 9px;
+  transform: rotate(225deg);
+  margin: 0 6px;
+}
+
+.next.disabled a {
+  opacity: .3;
+}
+
+.prev.disabled a {
+  opacity: .3;
+}
+
+.page-item {
+  margin: 0 6px;
+
+  a {
+    cursor: pointer;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.page-link {
+  cursor: pointer;
+
+}
+
+.selected a {
+  border: 1px solid var(--pagination-border);
+  cursor: default;
+}
+
+.disabled a {
+  cursor: default;
+}
+
+:root {
+  --background: #E5E5E5;
+  --background-light: #f3f3f6;
+  --background-darker: #e3e3e3;
+  --background-success: #afdfb4;
+  --black: #3B434E;
+  --gray-light: #EBEBEB;
+  --gray-dark: #787D85;
+  --footer: #e0e0e0;
+  --white: #fff;
+  --red: #FC836D;
+  --green: #1DC37E;
+  --green-light: #C8F8E4;
+  --text-secondary: #6b6b6b;
+  --border-color: #6b6b6b;
+  --text-disable: #c3c2be;
+  --text-addition: #a6a4a0;
+  --disabled: #dddfe8;
+  --disabled-darker: #c3c2be;
+  --danger: #ff5733;
+  --success-secondary: #def2d9;
+  --success-addition: #afdfb4;
+  --breadcrumb-primary: #2ea0e7;
+  --breadcrumb-last: #a3a6aa;
+
+  --pagination-arrow: #6b6b6b;
+  --pagination-text: #6b6b6b;
+  --pagination-border: #d3d3d3;
+
+  --admin-menu: #1e5032;
+  --admin-dark: #2d4034;
+  --admin-menu-text: #e4e1d6;
+  --admin-menu-text-hover: #f6f2e8;
+  --admin-text: #6b6b6b;
+  --admin-input-border: #bbbbbb;
+  --admin-input-placeholder: #a1a1a1;
+
+  --table-head-bg: #a6a4a0;
+  --table-head-bg-hover: #918e89;
+  --table-row: #fffdfb;
+  --table-secondary-row: #f6f5f1;
+  --table-row-hover: #e3e0d6;
+  --table-text: #6b6b6b;
+  --table-head-text: #fff;
+
+  --checkbox-checked: #6b6b6b;
+  --checkbox-hover: #eeebe7;
+  --checkbox-bg-hover: #eeebe7;
+  --checkbox-bg: #fffdfb;
+
+  --footer-bg: #283339;
+
+  --modal-overlay: #c3c2be;
+  --modal-bg: #f7f7f5;
+  --modal-text: #6b6b6b;
+
+  --bg-secondary1: #f7f7f5;
+  --bg-secondary: #edecea;
+  --bg-accent: #242424;
+  --stroke-main: #e4e4e4;
+  --stroke-secondary: #c3c2be;
+  --element-brand: #3f2aff;
+  --element-danger-secondary: #ffe6e0;
+  --element-danger-addition: #ffcdc2;
+  --element-warning: #fdbf23;
+  --element-warning-secondary: #fff2d9;
+  --element-warning-addition: #ffe6b3;
+  --element-info: #dcf4fe;
+  --decorate: #e6e8f0;
+  --muted: #b4b9cb;
+  --secondary-text: #657195;
+  --main-text: #000;
+  --success: #23af11;
+  --warning: #ffb13b;
+  --primary-second: #3d3bff;
+  --primary-darker: #1b19b8;
+  --dark-blue: #2e39c0;
+  --shadow-static: 0 6px 24px rgba(180,185,203,0.25);
+  --shadow-expanded: 0 6px 8px rgba(168,175,196,0.25);
+  --shadow-hover: 0 6px 16px rgba(168,175,196,0.3);
+  --shadow-header: 0 1px 10px rgba(230,232,240,0.5);
+  --font-family: RostelecomBasis, sans-serif;
+}

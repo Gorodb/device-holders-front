@@ -1,0 +1,49 @@
+.title {
+  margin-bottom: 20px;
+}
+
+.codeBlock {
+  margin-top: 100px;
+}
+
+.authForm {
+  width: 450px;
+  padding: 25px;
+  margin: 0 auto;
+  background: var(--bg-secondary1);
+  border-radius: 10px;
+}
+
+.forgotPassword {
+  display: flex;
+  margin: 20px 0;
+  text-decoration: underline;
+}
+
+.regBlock {
+  margin-top: 65px;
+  display: grid;
+  grid-template-rows: 1fr;
+  justify-content: center;
+
+  .regLink {
+    margin-left: 10px;
+    text-decoration: underline;
+  }
+}
+
+.resend {
+  display: flex;
+  cursor: pointer;
+  margin-top: 5px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.errorMessage {
+  display: block;
+  margin-top: 8px;
+  color: var(--red)
+}
