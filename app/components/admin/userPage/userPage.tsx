@@ -1,11 +1,10 @@
 import {useCallback, useEffect, useState} from "react";
 import {DropZone} from "../dropZone";
 import {ImageListType} from "react-images-uploading/dist/typings";
-
-import Cropper from 'react-easy-crop'
+import Image from "next/image";
 import { Point, Area } from "react-easy-crop/types";
-import {getCroppedImg} from "../../../utils/canvas.utils";
 
+import {getCroppedImg} from "../../../utils/canvas.utils";
 import {UserPageProps} from "./userPage.props";
 import {useActions} from "../../../hooks/useActions";
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
@@ -15,6 +14,7 @@ import styles from './userPage.module.scss';
 import Input from "../../input";
 import {Textarea} from "../../textarea";
 import {IUser} from "../../../types/auth.types";
+import {ImageCrop} from "../imageCrop";
 
 const emptyUser: IUser = {
   "id": "6cc11beb-6c5b-4bb0-a385-b2d2174d5c56",
@@ -41,11 +41,8 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   const {setBreadcrumbs} = useActions()
   const {data, isLoading, error} = useGetUserQuery(id)
   const [upload, {data: imgUrl}] = useUploadPhotoMutation()
-
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
-  const [croppedImage, setCroppedImage] = useState(null)
-  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
-  const [zoom, setZoom] = useState<number>(1)
+
   const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, [])
@@ -85,55 +82,24 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
     return <CircleLoader type={CircleTypes.dark}/>
   }
 
-  const cropComponent = (
-    images && images.length > 0 && images[0].data_url && <div className="App">
-      <div className={styles.cropContainer}>
-        <Cropper
-          image={images[0].data_url}
-          crop={crop}
-          zoom={zoom}
-          maxZoom={5}
-          aspect={1}
-          onCropChange={setCrop}
-          onCropComplete={onCropComplete}
-          onZoomChange={setZoom}
-        />
-      </div>
-      <div className="controls">
-        <input
-          type="range"
-          value={zoom}
-          min={1}
-          max={5}
-          step={0.1}
-          aria-labelledby="Zoom"
-          onChange={(e) => {
-            setZoom(parseInt(e.target.value))
-          }}
-          className="zoom-range"
-        />
-      </div>
-      <button onClick={showCroppedImage}>Получить изображение</button>
-      {croppedImage}
-    </div>
-  )
-
   return (
     <div>
       Страница пользователя: {id}
       <div className={styles.container}>
         <div className={styles.block}>
-          <Input handleChange={() => {
-          }} label='Имя пользователя' type="text"/>
-          <Textarea onChange={() => {
-          }} label='Описание пользователя' defaultValue="Описание пользователя"/>
+          <Input handleChange={() => {}} label='Имя пользователя' type="text"/>
+          <Textarea onChange={() => {}} label='Описание пользователя' defaultValue="Описание пользователя"/>
           <DropZone images={images} onImageUpload={onImageUpload}/>
-          {images && images.length > 0 && images[0].data_url && cropComponent}
+          {images && images.length > 0 && images[0].data_url
+          && <ImageCrop
+            image={images[0].data_url}
+            onCropComplete={onCropComplete}
+            showCroppedImage={showCroppedImage} />
+          }
         </div>
         <div className={styles.block}>
-          <Input handleChange={() => {
-          }} label='email' type="email"/>
-          {imgUrl && <img width={"200px"} src={imgPrefix + imgUrl.url} alt=""/>}
+          <Input handleChange={() => {}} label='email' type="email"/>
+          {imgUrl && <Image width={200} height={200} src={imgPrefix + imgUrl.url} alt="avatar"/>}
         </div>
       </div>
     </div>
