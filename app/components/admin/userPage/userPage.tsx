@@ -42,10 +42,10 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   const {data, isLoading, error} = useGetUserQuery(id)
   const [upload, {data: imgUrl}] = useUploadPhotoMutation()
 
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>(null)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
   const [croppedImage, setCroppedImage] = useState(null)
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
-  const [zoom, setZoom] = useState(1)
+  const [zoom, setZoom] = useState<number>(1)
   const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, [])
@@ -54,7 +54,7 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
     try {
       const croppedImage = await getCroppedImg(
         images[0].data_url,
-        croppedAreaPixels,
+        croppedAreaPixels!,
         0
       )
       const fd = new FormData()
@@ -108,7 +108,7 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
           step={0.1}
           aria-labelledby="Zoom"
           onChange={(e) => {
-            setZoom(e.target.value)
+            setZoom(parseInt(e.target.value))
           }}
           className="zoom-range"
         />

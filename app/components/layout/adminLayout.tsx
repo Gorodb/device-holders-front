@@ -27,8 +27,10 @@ export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
     const isAuthToken = !!Cookies.get(CookiesEnum.authorisation)
     if (!id && isAuthToken) {
       getUserInfo('')
+    } else if (!isAuthToken) {
+      router.push('/auth')
     }
-  }, [getUserInfo, id])
+  }, [getUserInfo, id, router])
 
   useEffect(() => {
     if (isSuccess && data) {
