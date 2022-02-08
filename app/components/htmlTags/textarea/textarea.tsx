@@ -1,5 +1,5 @@
 import {TextareaProps} from "./textarea.props";
-import Span, {SpanSizeEnum} from "../span";
+import {Span, SpanSizeEnum} from "../span";
 import styles from './textarea.module.scss'
 
 export const Textarea = ({inputRef, children, onChange, label, ...props}: TextareaProps): JSX.Element => {

@@ -6,9 +6,8 @@ import {useGetDepartmentsQuery} from "../../store/departments/departments.api";
 import {CircleLoader, CircleTypes} from "../loaders";
 import {IDepartment} from "../../types/departments.types";
 import styles from './departments.module.scss';
-import Span, {SpanSizeEnum} from "../span";
 import {CookiesEnum} from "../../enums/cookies.enum";
-import Select from "../select";
+import {Select, Span, SpanSizeEnum} from "../htmlTags";
 
 export const Departments = (): JSX.Element => {
   const [currentDepartment, setCurrentDepartment] = useState<string>('default')

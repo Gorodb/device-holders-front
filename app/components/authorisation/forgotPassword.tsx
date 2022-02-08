@@ -1,11 +1,7 @@
 import Link from "next/link";
 import styles from './authorisation.module.scss';
 import {ChangeEvent, useState} from "react";
-import Input from "../input";
-import Span, {SpanSizeEnum} from "../span";
-import Button from "../buttons";
-import {ButtonTypes} from "../buttons/buttonTypes.enum";
-import {useAuthMutation} from "../../store/auth/auth.api";
+import {Input, SpanSizeEnum, Span, Button, ButtonTypes} from "../htmlTags";
 
 export const ForgotPassword = (): JSX.Element => {
   const initialState = {email: ''};
@@ -29,7 +25,7 @@ export const ForgotPassword = (): JSX.Element => {
       <div className={styles.authForm}>
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.large}>Восстановления пароля</Span></div>
         <form action="">
-          <Input name='email' type='text' handleChange={onChange} label='Email'/>
+          <Input name='email' type='text' onChange={onChange} label='Email'/>
           <Button onClick={onSubmit} buttonType={ButtonTypes.black} isFullSize={true}>Восстановить пароль</Button>
           <div className={styles.regBlock}>
             <Span size={SpanSizeEnum.small}>

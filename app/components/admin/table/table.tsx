@@ -4,10 +4,8 @@ import cn from 'classnames';
 
 import styles from './table.module.scss';
 import {ITableDataHead, TableProps} from "./table.props";
-import {Checkbox} from "../../checkbox";
 import {CircleLoader, CircleTypes} from "../../loaders";
-import Button from "../../buttons";
-import {ButtonTypes} from "../../buttons/buttonTypes.enum";
+import {ButtonTypes, Button, Checkbox} from "../../htmlTags";
 
 export const Table = ({children, showSpinner, onEdit, onDelete, onDeleteMany, tableData, ...props}: TableProps): JSX.Element => {
   const [allChecked, setAllChecked] = useState<boolean>(false)

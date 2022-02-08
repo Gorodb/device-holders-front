@@ -3,10 +3,10 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 
 import styles from './authorisation.module.scss';
-import Input from "../input";
-import Span, {SpanSizeEnum} from "../span";
-import Button from "../buttons";
-import {ButtonTypes} from "../buttons/buttonTypes.enum";
+import Input from "../htmlTags/input";
+import Span, {SpanSizeEnum} from "../htmlTags/span";
+import Button from "../htmlTags/buttons";
+import {ButtonTypes} from "../htmlTags/buttons/buttonTypes.enum";
 import {useDepartment} from "../../hooks/useDepartment";
 import {useRegistrationMutation} from "../../store/auth/auth.api";
 import {useActions} from "../../hooks/useActions";

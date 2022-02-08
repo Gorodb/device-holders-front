@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import Span, {SpanSizeEnum} from "../span";
+import {Span, SpanSizeEnum} from "../span";
 import {ButtonProps} from "./button.props";
 import styles from './button.module.scss'
 import {ButtonTypes} from "./buttonTypes.enum";

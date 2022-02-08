@@ -1,9 +1,6 @@
 import styles from './authorisation.module.scss';
 import {ChangeEvent, useEffect, useState} from "react";
-import Input from "../input";
-import Span, {SpanSizeEnum} from "../span";
-import Button from "../buttons";
-import {ButtonTypes} from "../buttons/buttonTypes.enum";
+import {ButtonTypes, Input, Button, Span, SpanSizeEnum} from "../htmlTags";
 import {InputCodeProps} from "./props/inputCode.props";
 import {useResendCodeMutation, useValidateCodeMutation} from "../../store/auth/auth.api";
 import {useRouter} from "next/router";
@@ -80,7 +77,7 @@ export const InputCode = ({ action }: InputCodeProps): JSX.Element => {
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.large}>{title}</Span></div>
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.medium}>{subtitle}</Span></div>
         <form action="">
-          <Input name='code' type='text' handleChange={onChange} label='Введите код из письма' placeholder='Введите код из письма'/>
+          <Input name='code' type='text' onChange={onChange} label='Введите код из письма' placeholder='Введите код из письма'/>
           {errorMessage}
           <Button onClick={onSubmit} buttonType={ButtonTypes.black} isDisabled={isDisabled} isFullSize={true}>{buttonText}</Button>
           <Span size={SpanSizeEnum.small} className={styles.resend} onClick={onResendCodeHandle}>Отправить код повторно</Span>

@@ -4,10 +4,7 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 
 import styles from './authorisation.module.scss';
-import Input from "../input";
-import Span, {SpanSizeEnum} from "../span";
-import Button from "../buttons";
-import {ButtonTypes} from "../buttons/buttonTypes.enum";
+import {Input, Span, SpanSizeEnum, ButtonTypes, Button} from "../htmlTags";
 import {useAuthMutation} from "../../store/auth/auth.api";
 import {CircleLoader, CircleTypes} from '../loaders';
 import {useActions} from "../../hooks/useActions";
@@ -65,8 +62,8 @@ export const Authorisation = (): JSX.Element => {
       <Span className={styles.title} size={SpanSizeEnum.large}>Авторизация</Span>
     </div>
     <form>
-      <Input name='email' type='text' handleChange={onChange} label='Email'/>
-      <Input name='password' type='password' handleChange={onChange} label='Пароль'/>
+      <Input name='email' type='text' onChange={onChange} label='Email'/>
+      <Input name='password' type='password' onChange={onChange} label='Пароль'/>
       <Link href='/forgotPassword'><a className={styles.forgotPassword}>Напомнить пароль</a></Link>
       {button}
       { isError && errorMessage }

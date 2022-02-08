@@ -3,10 +3,10 @@ import {FiEye, FiEyeOff} from "react-icons/fi";
 import cn from 'classnames';
 
 import {InputProps} from "./input.props";
-import Span, {SpanSizeEnum} from "../span";
+import {Span, SpanSizeEnum} from "../span";
 import styles from './input.module.scss'
 
-export const Input = ({inputRef, label, handleChange, ...props}: InputProps): JSX.Element => {
+export const Input = ({inputRef, label, ...props}: InputProps): JSX.Element => {
   const [shown, setShown] = useState<boolean>(false);
 
   const onShowClickHandler = () => {
@@ -23,12 +23,11 @@ export const Input = ({inputRef, label, handleChange, ...props}: InputProps): JS
         <input
           {...props}
           ref={inputRef}
-          onChange={handleChange}
           type={shown ? "text" : "password"}
           className={cn(styles.input, styles.passwordInput)} />
         {eye}
       </span>
-    ) : <input ref={inputRef} onChange={handleChange} {...props}  className={styles.input} />
+    ) : <input ref={inputRef} {...props}  className={styles.input} />
 
   return (
     <div className={styles.container}>

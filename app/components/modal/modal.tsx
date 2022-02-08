@@ -2,8 +2,7 @@ import {useState, useEffect} from "react";
 import {MdClose} from "react-icons/md";
 
 import styles from './modal.module.scss'
-import Button from "../buttons";
-import {ButtonTypes} from "../buttons/buttonTypes.enum";
+import {Button, ButtonTypes} from "../htmlTags";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import {emptyModal} from "../../store/modal/modal.slice";
