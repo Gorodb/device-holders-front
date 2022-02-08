@@ -1,5 +1,7 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import { useQueryState, queryTypes } from 'next-usequerystate'
+import {useRouter} from "next/router";
+import Image from "next/image";
 
 import styles from './usersList.module.scss';
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
@@ -19,6 +21,7 @@ import {clearObject} from "../../../utils/jsonCleaner";
 const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
 
 export const UsersList = (): JSX.Element => {
+  const router = useRouter();
   const {options} = useDepartmentsOptions({page: 1, limit: 1000})
   const [page, setPage] = useQueryState('page', queryTypes.integer.withDefault(1));
   const [limit] = useQueryState('limit', queryTypes.integer.withDefault(10));
@@ -26,8 +29,8 @@ export const UsersList = (): JSX.Element => {
   const [search, setSearch] = useQueryState('search', queryTypes.string.withDefault(""));
   const [pagination, setPagination] = useState<IPagination>()
   const [usersData, setUsersData] = useState<ITableData>()
-  const {setBreadcrumbs, setUserOnEdit, setModalIsOpen, setModal} = useActions()
-  const [deleteUser, deleteResult] = useDeleteUsersMutation()
+  const {setBreadcrumbs, setModalIsOpen, setModal} = useActions()
+  const [deleteUser] = useDeleteUsersMutation()
   const {data, isLoading, error, } = useGetUsersQuery(clearObject({page, limit, department, search}), {
     refetchOnReconnect: true,
   })
@@ -44,7 +47,7 @@ export const UsersList = (): JSX.Element => {
     const columns = ["id", "logo", "email", "name", "department"]
     const tableData = data && data.items.map((user: IUser) => {
       const id = <div>{user.id}</div>
-      const logo = user.logo ? <div><img className={styles.img} src={imgPrefix + user.logo.url}/></div> : ''
+      const logo = user.logo ? <div className={styles.img}><Image layout="fill" src={imgPrefix + user.logo.url} alt="preview"/></div> : ''
       const email = user.email ? <div>{user.email}</div> : ''
       const name = user.name ? <div>{user.name}</div> : ''
       const department = user.department ? <div>{user.department.name} - {user.department.description}</div> : ''
@@ -119,7 +122,8 @@ export const UsersList = (): JSX.Element => {
     setModalIsOpen(true);
   };
 
-  const onEdit = () => {
+  const onEdit = async (id: string) => {
+    await router.push(`/admin/users/${id}`)
   };
 
   if (error) return <div>Что-то пошло не так</div>

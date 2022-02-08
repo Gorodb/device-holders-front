@@ -47,7 +47,7 @@ export const Table = ({children, showSpinner, onEdit, onDelete, onDeleteMany, ta
         <td className={styles.iconsCell}>
           <div className={styles.iconsCellContainer}>
             <FaTrashAlt className={styles.icon} onClick={() => {onDelete(data.rowId)}} />
-            <FaPen className={styles.icon} onClick={() => onEdit(data.rowId)}/>
+            <FaPen className={styles.icon} onClick={() => {onEdit(data.rowId)}}/>
           </div>
         </td>
       </tr>

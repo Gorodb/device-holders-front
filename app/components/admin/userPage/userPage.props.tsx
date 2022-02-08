@@ -1,5 +1,5 @@
-import {DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
+import {DetailedHTMLProps, HTMLAttributes} from "react";
 
-export interface UserPageProps extends DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>{
-  children: ReactNode;
+export interface UserPageProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>{
+  id: string;
 }

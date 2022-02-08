@@ -31,7 +31,7 @@ export const Input = ({inputRef, label, handleChange, ...props}: InputProps): JS
     ) : <input ref={inputRef} onChange={handleChange} {...props}  className={styles.input} />
 
   return (
-    <div className={styles.inputContainer}>
+    <div className={styles.container}>
       {label && <Span size={SpanSizeEnum.medium}><label className={styles.label}>{label}</label></Span>}
       {input}
     </div>
