@@ -58,7 +58,7 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
         0
       )
       const fd = new FormData()
-      fd.append('file', croppedImage)
+      fd.append('file', croppedImage!)
       upload(fd)
     } catch (e) {
       console.error(e)

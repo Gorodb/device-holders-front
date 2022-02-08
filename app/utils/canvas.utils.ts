@@ -1,4 +1,6 @@
-export const createImage = (url) =>
+import {Area} from "react-easy-crop/types";
+
+export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image()
     image.addEventListener('load', () => resolve(image))
@@ -7,14 +9,14 @@ export const createImage = (url) =>
     image.src = url
   })
 
-export function getRadianAngle(degreeValue) {
+export function getRadianAngle(degreeValue: number) {
   return (degreeValue * Math.PI) / 180
 }
 
 /**
  * Returns the new bounding area of a rotated rectangle.
  */
-export function rotateSize(width, height, rotation) {
+export function rotateSize(width: number, height: number, rotation: number) {
   const rotRad = getRadianAngle(rotation)
 
   return {
@@ -29,11 +31,11 @@ export function rotateSize(width, height, rotation) {
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
 export async function getCroppedImg(
-  imageSrc,
-  pixelCrop,
+  imageSrc: string,
+  pixelCrop: Area,
   rotation = 0,
   flip = {horizontal: false, vertical: false}
-): File {
+): Promise<File | null> {
   const image = await createImage(imageSrc)
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
@@ -82,7 +84,7 @@ export async function getCroppedImg(
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
-      resolve(new File([blob], "fileName.jpg", {type: "image/jpeg"}))
+      resolve(new File([blob!], "fileName.jpg", {type: "image/jpeg"}))
     }, 'image/jpeg');
   })
 }
