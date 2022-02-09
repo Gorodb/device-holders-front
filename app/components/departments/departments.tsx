@@ -48,14 +48,15 @@ export const Departments = (): JSX.Element => {
           className={styles.title}
           size={SpanSizeEnum.large}
         >Выберите департамент, чтобы посмотреть устройства из вашего офиса</Span>
-        {
-          options && <Select
-            options={options}
-            defaultValue={currentDepartment}
-            onChange={selectChange}
-            defaultOptionText="Выберите департамент"
-          />
-        }
+        <div className={styles.selectContainer}>
+          {
+            options && <Select
+              defaultValue={currentDepartment}
+              onChange={selectChange}
+              defaultOptionText="Выберите департамент"
+            >{options}</Select>
+          }
+        </div>
       </div>
     </div>
   )

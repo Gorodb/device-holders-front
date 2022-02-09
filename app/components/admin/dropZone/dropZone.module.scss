@@ -1,3 +1,31 @@
-.imageContainer {
-  position: relative;
+@keyframes borderAnimation {
+  from { background-position: 0 0, -26.32px 0, 100% -26.32px, 0 100%; }
+  to { background-position: 0 -26.32px, 0 0, 100% 0, -26.32px 100%; }
+}
+
+.dragContainer {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 300px;
+  height: 200px;
+  border: none;
+
+  color: var(--admin-text);
+  background-color: transparent;
+  background-image: repeating-linear-gradient(-9deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px), repeating-linear-gradient(81deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px), repeating-linear-gradient(171deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px), repeating-linear-gradient(261deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px);
+  background-size: 3px 100%, 100% 3px, 3px 100% , 100% 3px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+}
+
+.dragging {
+  background-color: var(--admin-drop-bg-drag);
+  background-image: repeating-linear-gradient(-9deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px), repeating-linear-gradient(81deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px), repeating-linear-gradient(171deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px), repeating-linear-gradient(261deg, var(--admin-drop-border), var(--admin-drop-border) 14px, transparent 14px, transparent 26px, var(--admin-drop-border) 26px);
+  background-size: 3px calc(100% + 26.32px), calc(100% + 26.32px) 3px, 3px calc(100% + 26.32px) , calc(100% + 26.32px) 3px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+  animation: borderAnimation 0.9s infinite linear;
 }

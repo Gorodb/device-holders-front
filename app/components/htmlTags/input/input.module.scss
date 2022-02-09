@@ -11,7 +11,7 @@
   border: solid 1px var(--gray-light);
   border-radius: 8px;
   outline: none;
-
+  color: var(--text-input);
   &::placeholder {
     color: var(--text-addition);
   }

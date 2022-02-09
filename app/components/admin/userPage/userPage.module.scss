@@ -1,11 +1,12 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   grid-column-gap: 20px;
 }
 
 .block {
-  width: 580px;
+  max-width: 580px;
+  min-width: 500px;
   padding: 10px;
 }
 
@@ -15,6 +16,8 @@
   height: 400px;
 }
 
-.infoBlock {
+.infoBlock {}
 
+.select {
+  color: var(--admin-text)
 }
