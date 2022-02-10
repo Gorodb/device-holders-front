@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import {Span, SpanSizeEnum} from "../span";
 import {ButtonProps} from "./button.props";
 import styles from './button.module.scss'
 import {ButtonTypes} from "./buttonTypes.enum";
@@ -22,7 +21,7 @@ export const Button = ({children, className, isDisabled, onClick, isFullSize, bu
       })}
       disabled={isDisabled}
     >
-      <Span size={SpanSizeEnum.medium}>{children}</Span>
+      {children}
     </button>
   )
 }

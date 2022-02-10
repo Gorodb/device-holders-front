@@ -17,6 +17,7 @@ import {IPagination} from "../../../types/pagination.types";
 import {Pagination} from "../../pagination";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
+import {ALink} from "../../aLink";
 
 const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
 
@@ -46,11 +47,33 @@ export const UsersList = (): JSX.Element => {
     ]
     const columns = ["id", "logo", "email", "name", "department"]
     const tableData = data && data.items.map((user: IUser) => {
-      const id = <div>{user.id}</div>
-      const logo = user.logo ? <div className={styles.img}><Image layout="fill" src={imgPrefix + user.logo.url} alt="preview"/></div> : ''
-      const email = user.email ? <div>{user.email}</div> : ''
-      const name = user.name ? <div>{user.name}</div> : ''
-      const department = user.department ? <div>{user.department.name} - {user.department.description}</div> : ''
+      const id = (
+        <ALink href={`/admin/users/${user.id}`}>
+          <div>{user.id}</div>
+        </ALink>
+      )
+      const logo = user.logo ? (
+        <ALink href={`/admin/users/${user.id}`}>
+          <div className={styles.img}>
+            <Image layout="fill" src={imgPrefix + user.logo.url} alt="preview"/>
+          </div>
+        </ALink>
+      ) : ''
+      const email = user.email ? (
+        <ALink href={`/admin/users/${user.id}`}>
+          <div>{user.email}</div>
+        </ALink>
+      ) : ''
+      const name = user.name ? (
+        <ALink href={`/admin/users/${user.id}`}>
+          <div>{user.name}</div>
+        </ALink>
+      ) : ''
+      const department = user.department ? (
+        <ALink href={`/admin/users/${user.id}`}>
+          <div>{user.department.name} - {user.department.description}</div>
+        </ALink>
+      ) : ''
       return {id, logo, email, name, department, rowId: user.id}
     });
 
@@ -133,7 +156,7 @@ export const UsersList = (): JSX.Element => {
   }
 
   return (
-    <div>
+    <div className={styles.listContainer}>
       <div className={styles.filters}>
         <div className={styles.searchContainer}>
           <SearchInput
@@ -153,14 +176,13 @@ export const UsersList = (): JSX.Element => {
           {options && <AdminSelect
             label="Выберите подразделение"
             selectedValue={department}
-            options={options}
             onClear={async () => {
               await setPage(1)
               await setDepartment("")
             }}
             onChange={onSelectDepartment}
             defaultOptionText={"Все"}
-          />}
+          >{options}</AdminSelect>}
         </div>
       </div>
       <Table

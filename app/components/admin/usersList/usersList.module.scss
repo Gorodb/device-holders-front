@@ -1,6 +1,12 @@
+.listContainer {
+  margin-bottom: 60px;
+}
+
 .img {
+  border-radius: 50%;
+  overflow: hidden;
   height: 80px;
-  max-width: 80px;
+  width: 80px;
   position: relative;
 }
 

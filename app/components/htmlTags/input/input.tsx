@@ -5,8 +5,9 @@ import cn from 'classnames';
 import {InputProps} from "./input.props";
 import {Span, SpanSizeEnum} from "../span";
 import styles from './input.module.scss'
+import {FaTimes} from "react-icons/fa";
 
-export const Input = ({inputRef, label, ...props}: InputProps): JSX.Element => {
+export const Input = ({inputRef, value, onClear, label, ...props}: InputProps): JSX.Element => {
   const [shown, setShown] = useState<boolean>(false);
 
   const onShowClickHandler = () => {
@@ -21,13 +22,19 @@ export const Input = ({inputRef, label, ...props}: InputProps): JSX.Element => {
     ? (
       <span className={styles.passwordInputBlock}>
         <input
+          value={value}
           {...props}
           ref={inputRef}
           type={shown ? "text" : "password"}
           className={cn(styles.input, styles.passwordInput)} />
         {eye}
       </span>
-    ) : <input ref={inputRef} {...props}  className={styles.input} />
+    ) : (
+      <div className={styles.inputContainer}>
+        <input value={value} ref={inputRef} {...props} className={styles.input} />
+        {onClear && value && <FaTimes className={styles.clearIcon} onClick={onClear}/>}
+      </div>
+    )
 
   return (
     <div className={styles.container}>

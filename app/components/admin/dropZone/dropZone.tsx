@@ -3,10 +3,10 @@ import {DropZoneProps} from "./dropZone.props";
 import ImageUploading from "react-images-uploading";
 import styles from "./dropZone.module.scss"
 
-export const DropZone = ({images, onImageUpload, ...props}: DropZoneProps): JSX.Element => {
+export const DropZone = ({dropZoneText, ...props}: DropZoneProps): JSX.Element => {
   return (
-    <div className="App" {...props}>
-      <ImageUploading value={images!} onChange={onImageUpload} dataURLKey="data_url">
+    <div className="App" >
+      <ImageUploading {...props} acceptType={["png","jpg","jpeg","webp"]} dataURLKey="data_url" >
         {({
             onImageUpload,
             isDragging,
@@ -20,7 +20,7 @@ export const DropZone = ({images, onImageUpload, ...props}: DropZoneProps): JSX.
               onClick={onImageUpload}
               {...dragProps}
             >
-              Click or Drop here
+              {dropZoneText ? dropZoneText : "Click or Drop here"}
             </button>
           </div>
         )}

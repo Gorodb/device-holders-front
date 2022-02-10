@@ -4,7 +4,7 @@ import Cropper from "react-easy-crop";
 import {useState} from "react";
 import {Point} from "react-easy-crop/types";
 
-export const ImageCrop = ({image, onCropComplete, showCroppedImage, ...props}: ImageCropProps): JSX.Element => {
+export const ImageCrop = ({image, onCropComplete, ...props}: ImageCropProps): JSX.Element => {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState<number>(1)
 
@@ -36,7 +36,6 @@ export const ImageCrop = ({image, onCropComplete, showCroppedImage, ...props}: I
           className="zoom-range"
         />
       </div>
-      <button onClick={showCroppedImage}>Получить изображение</button>
     </div>
   )
 }

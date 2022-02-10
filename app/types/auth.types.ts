@@ -28,6 +28,18 @@ export interface IUser {
   logo?: any;
 }
 
+export interface IUserCreate {
+  id?: string;
+  email: string;
+  name?: string;
+  role?: string;
+  phone?: any;
+  description?: any;
+  department?: string;
+  logo?: any;
+  password?: string
+}
+
 export interface IUsers {
   items: IUser[];
   pagination: IPagination;
