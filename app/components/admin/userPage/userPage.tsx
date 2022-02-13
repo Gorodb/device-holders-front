@@ -6,11 +6,15 @@ import {Area} from "react-easy-crop/types";
 import {useRouter} from "next/router";
 
 import {getCroppedImg} from "../../../utils/canvas.utils";
-import {compareObjects} from "../../../utils/compareObjects.util";
 import {UserPageProps} from "./userPage.props";
 import {useActions} from "../../../hooks/useActions";
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
-import {useGetUserQuery, useUploadPhotoMutation, useUpdateUsersMutation} from "../../../store/users/users.api";
+import {
+  useCreateUsersMutation,
+  useLazyGetUserQuery,
+  useUpdateUsersMutation,
+  useUploadPhotoMutation
+} from "../../../store/users/users.api";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {Button, ButtonTypes, Input, Textarea} from "../../htmlTags";
 import {IUserCreate} from "../../../types/auth.types";
@@ -18,31 +22,67 @@ import {ImageCrop} from "../imageCrop";
 import AdminSelect from "../adminSelect";
 import {useDepartmentsOptions} from "../../../hooks/useDepartmentsOptions";
 import styles from './userPage.module.scss';
+import {AlertsTypesEnum} from "../../../store/alerts/alerts.slice";
+import {useAlerts} from "../../../hooks/useAlerts";
 
 const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
+const emptyUser = {
+  "id": "",
+  "email": "",
+  "name": "",
+  "role": "user",
+  "phone": "",
+  "description": "",
+  "logo": null,
+  "department": "",
+  "password": "",
+  "location": ""
+};
 
 export const UserPage = ({id}: UserPageProps): JSX.Element => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true)
-  const [user, setUser] = useState<IUserCreate>({
-    "id": "",
-    "email": "",
-    "name": "",
-    "role": "",
-    "phone": "",
-    "description": "",
-    "logo": {"url": "", "name": ""},
-    "department": "",
-    "password": ""
-  })
+  const [user, setUser] = useState<IUserCreate>(emptyUser)
   const [imageUploadError, setImageUploadError] = useState<any>(null)
   const [images, setImages] = useState<ImageListType>([]);
   const {setBreadcrumbs} = useActions()
-  const {data, isSuccess, isLoading, error} = useGetUserQuery(id)
+  const setAlert = useAlerts()
+  const [getUser, {data, isSuccess, isLoading, error}] = useLazyGetUserQuery()
   const [upload, {data: imgUploadData, isSuccess: isSuccessUpload}] = useUploadPhotoMutation()
-  const [updateUser] = useUpdateUsersMutation()
+  const [updateUser, {isSuccess: isUserUpdated, isError: isErrorUserUpdate, error: updateError}] = useUpdateUsersMutation()
+  const [createUser, {data: createdUser, isSuccess: isUserCreated, isError: isErrorUserCreate, error: createUserError}] = useCreateUsersMutation()
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
-  const {options} = useDepartmentsOptions({page: 1, limit: 1000})
+  const {options, data: departments, isSuccess: isDepartmentsSuccess} = useDepartmentsOptions({page: 1, limit: 1000})
   const router = useRouter()
+
+  useEffect(() => {
+    if (id && id !== 'create') {
+      getUser(id)
+    } else if (isDepartmentsSuccess && departments) {
+      setUser({...user, department: departments.items[0].id})
+    }
+  }, [departments, getUser, id, isDepartmentsSuccess])
+
+  useEffect(() => {
+    if (isUserUpdated) {
+      setAlert({text: 'Пользователь сохранен', type: AlertsTypesEnum.success}, 3000)
+    }
+    if (isErrorUserUpdate && updateError) {
+      setAlert({text: `Не удалось обновить пользователя: ${id}`, type: AlertsTypesEnum.error}, 3000)
+    }
+    if (isUserCreated) {
+      setAlert({text: 'Пользователь создан', type: AlertsTypesEnum.success}, 3000)
+      router.push(`/admin/users/${createdUser.id}`)
+    }
+    if (isErrorUserCreate && createUserError) {
+      // @ts-ignore
+      const text = typeof createUserError.data.message === 'string'
+        // @ts-ignore
+        ? createUserError.data.message
+        // @ts-ignore
+        : createUserError.data.message.map((error: string, inx: number) => <div key={inx}>{error}</div>)
+      setAlert({text, type: AlertsTypesEnum.error}, 10000)
+    }
+  }, [isUserCreated, createUserError, isErrorUserCreate, updateError, isErrorUserUpdate, isUserUpdated])
 
   useEffect(() => {
     if (data && isSuccess && !isLoading) {
@@ -53,20 +93,17 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   }, [isSuccess, data, isLoading])
 
   useEffect(() => {
-    if (data && data.department && compareObjects(user, data, [{field: "department", value: data.department.id}])) {
+    if (!user.department || !user.name || !user.email) {
       setIsDisabled(true)
     } else {
-      if (!user.department || !user.name || !user.email) {
-        setIsDisabled(true)
-      } else {
-        setIsDisabled(false)
-      }
+      setIsDisabled(false)
     }
   }, [data, user])
 
   useEffect(() => {
     if (imgUploadData && isSuccessUpload) {
       setUser({...user, logo: imgUploadData})
+      setAlert({text: 'Изображение загружено', type: AlertsTypesEnum.success}, 3000)
     }
   }, [imgUploadData, isSuccessUpload])
 
@@ -85,8 +122,8 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   }, [croppedAreaPixels, images, upload])
 
   useEffect(() => {
-    const lastBreadcrumb = id === 'edit'
-      ? {route: '/admin/users/edit', pathName: 'Создание пользователя', isLast: true}
+    const lastBreadcrumb = id === 'create'
+      ? {route: '/admin/users/create', pathName: 'Создание пользователя', isLast: true}
       : {route: `/admin/users/${id}`, pathName: `Редактирование пользователя ${id}`, isLast: true}
     const breadcrumbs: IBreadcrumbs[] = [
       {route: '/', pathName: 'Главная'},
@@ -141,7 +178,6 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
 
   return (
     <div>
-      Страница пользователя: {id}
       <div className={styles.container}>
         <div className={styles.block}>
           <Input
@@ -152,6 +188,15 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
             type="text"
             value={user.name || ""}
             placeholder="Введите имя пользователя"
+          />
+          <Input
+            name="location"
+            onClear={() => setUser({...user, location: ""})}
+            onChange={onChangeInput}
+            label='Расположение пользователя'
+            type="text"
+            value={user.location || ""}
+            placeholder="Введите место расположения"
           />
           <Textarea
             name="description"
@@ -195,8 +240,8 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
             </>
           }
         </div>
-        <div className={styles.block}>
-          <form autoComplete="off">
+        <div className={styles.rightColumn}>
+          <form autoComplete="off" className={styles.form}>
             <Input
               name="phone"
               value={user.phone || ""}
@@ -244,7 +289,13 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
         </div>
       </div>
       <div className={styles.buttonsBlock}>
-        <Button buttonType={ButtonTypes.black} isDisabled={isDisabled} onClick={() => updateUser(user)}>Сохранить</Button>
+        <Button buttonType={ButtonTypes.black} isDisabled={isDisabled} onClick={() => {
+          if (id !== 'create') {
+            updateUser(user)
+          } else {
+            createUser(user)
+          }
+        }}>Сохранить</Button>
         <Button buttonType={ButtonTypes.white} onClick={() => router.push("/admin/users")}>Отмена</Button>
       </div>
     </div>

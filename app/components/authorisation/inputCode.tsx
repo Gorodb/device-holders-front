@@ -76,7 +76,7 @@ export const InputCode = ({ action }: InputCodeProps): JSX.Element => {
       <div className={styles.authForm}>
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.large}>{title}</Span></div>
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.medium}>{subtitle}</Span></div>
-        <form action="">
+        <form className={styles.form}>
           <Input name='code' type='text' onChange={onChange} label='Введите код из письма' placeholder='Введите код из письма'/>
           {errorMessage}
           <Button onClick={onSubmit} buttonType={ButtonTypes.black} isDisabled={isDisabled} isFullSize={true}>{buttonText}</Button>

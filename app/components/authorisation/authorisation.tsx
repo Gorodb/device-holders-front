@@ -61,7 +61,7 @@ export const Authorisation = (): JSX.Element => {
     <div className={styles.title}>
       <Span className={styles.title} size={SpanSizeEnum.large}>Авторизация</Span>
     </div>
-    <form>
+    <form className={styles.form}>
       <Input name='email' type='text' onChange={onChange} label='Email'/>
       <Input name='password' type='password' onChange={onChange} label='Пароль'/>
       <Link href='/forgotPassword'><a className={styles.forgotPassword}>Напомнить пароль</a></Link>

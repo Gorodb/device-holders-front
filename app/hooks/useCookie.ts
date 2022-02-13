@@ -6,7 +6,7 @@ export const useCookie = (name: string, initialValue: string) => {
 		const cookie = Cookies.get(name)
 		if (cookie) return cookie
 
-		Cookies.set(name, initialValue)
+		Cookies.set(name, initialValue, { expires: 365, sameSite: 'strict' })
 		return initialValue
 	})
 

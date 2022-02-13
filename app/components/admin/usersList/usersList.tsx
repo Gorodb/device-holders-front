@@ -1,7 +1,8 @@
 import {ChangeEvent, useEffect, useState} from "react";
-import { useQueryState, queryTypes } from 'next-usequerystate'
+import {queryTypes, useQueryState} from 'next-usequerystate'
 import {useRouter} from "next/router";
 import Image from "next/image";
+import {GrRotateRight} from "react-icons/gr";
 
 import styles from './usersList.module.scss';
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
@@ -18,6 +19,7 @@ import {Pagination} from "../../pagination";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
 import {ALink} from "../../aLink";
+import {Button, ButtonTypes} from "../../htmlTags";
 
 const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
 
@@ -48,9 +50,7 @@ export const UsersList = (): JSX.Element => {
     const columns = ["id", "logo", "email", "name", "department"]
     const tableData = data && data.items.map((user: IUser) => {
       const id = (
-        <ALink href={`/admin/users/${user.id}`}>
-          <div>{user.id}</div>
-        </ALink>
+        <div className={styles.idColumnData}>{user.id}</div>
       )
       const logo = user.logo ? (
         <ALink href={`/admin/users/${user.id}`}>
@@ -102,7 +102,6 @@ export const UsersList = (): JSX.Element => {
 
   const onSelectDepartment = async (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
-    console.log(event.target.value)
     if (event.target.value === 'default') {
       await setDepartment("")
     } else {
@@ -155,8 +154,8 @@ export const UsersList = (): JSX.Element => {
     return <CircleLoader type={CircleTypes.dark} />
   }
 
-  return (
-    <div className={styles.listContainer}>
+  const filters = (
+    <div className={styles.filtersContainer}>
       <div className={styles.filters}>
         <div className={styles.searchContainer}>
           <SearchInput
@@ -184,7 +183,23 @@ export const UsersList = (): JSX.Element => {
             defaultOptionText={"Все"}
           >{options}</AdminSelect>}
         </div>
+        <GrRotateRight className={styles.rotate} onClick={async () => {
+          await setPage(1)
+          await setSearch("")
+          await setDepartment("")
+        }} />
       </div>
+      <div className={styles.filterButtons}>
+        <Button buttonType={ButtonTypes.white} onClick={() => {
+          router.push(`/admin/users/create`)}
+        }>Добавить пользователя</Button>
+      </div>
+    </div>
+  )
+
+  return (
+    <div className={styles.listContainer}>
+      {filters}
       <Table
         onDelete={onDelete}
         onDeleteMany={onDeleteMany}

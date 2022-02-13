@@ -49,7 +49,7 @@ export const usersApi = createApi({
       }),
       createUsers: builder.mutation<any, IUserCreate>({
         query: (body: IUserCreate) => ({
-          url: "users/post",
+          url: "users/create",
           method: "POST",
           headers: { Authorization: authorisation },
           body,
@@ -83,4 +83,4 @@ export const usersApi = createApi({
   }
 });
 
-export const {useGetUsersQuery, useGetUserQuery, useUploadPhotoMutation, useUpdateUsersMutation, useCreateUsersMutation, useDeleteUsersMutation} = usersApi;
+export const {useGetUsersQuery, useLazyGetUserQuery, useGetUserQuery, useUploadPhotoMutation, useUpdateUsersMutation, useCreateUsersMutation, useDeleteUsersMutation} = usersApi;

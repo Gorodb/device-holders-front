@@ -4,16 +4,16 @@ import {bindActionCreators} from "redux";
 
 import {deviceActions} from "../store/devices/device.slice";
 import {authActions} from "../store/auth/auth.slice";
-import {usersActions} from "../store/users/users.slice";
 import {breadcrumbsActions} from "../store/breadcrumbs/breadcrumbs.slice";
 import {modalActions} from "../store/modal/modal.slice";
+import {pushActions} from "../store/alerts/alerts.slice";
 
 const allActions = {
   ...deviceActions,
   ...authActions,
-  ...usersActions,
   ...breadcrumbsActions,
-  ...modalActions
+  ...modalActions,
+  ...pushActions,
 }
 
 export const useActions = () => {

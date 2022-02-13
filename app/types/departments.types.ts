@@ -1,7 +1,7 @@
 import {IPagination} from "./pagination.types";
 
 export interface IDepartment {
-  id: string;
+  id?: string;
   name: string;
   description: string;
 }

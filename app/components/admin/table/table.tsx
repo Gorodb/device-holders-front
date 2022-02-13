@@ -68,7 +68,7 @@ export const Table = ({children, showSpinner, onEdit, onDelete, onDeleteMany, ta
   }
 
   return (
-    <div>
+    <div className={styles.tableContainer}>
       <table {...props} className={styles.table}>
         <thead className={styles.thead}>
         <tr>
@@ -84,7 +84,7 @@ export const Table = ({children, showSpinner, onEdit, onDelete, onDeleteMany, ta
         </tbody>
       </table>
 
-      {checkedIds.length > 0 && <div>
+      {checkedIds.length > 0 && <div className={styles.bottomButtons}>
         <Button buttonType={ButtonTypes.black} onClick={onDeleteManyHandler}>Удалить выбранное</Button>
         <Button className={styles.bottomButton} buttonType={ButtonTypes.transparent} onClick={onCancelClick}>Снять выделения</Button>
       </div>}

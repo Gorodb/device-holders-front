@@ -3,10 +3,7 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 
 import styles from './authorisation.module.scss';
-import Input from "../htmlTags/input";
-import Span, {SpanSizeEnum} from "../htmlTags/span";
-import Button from "../htmlTags/buttons";
-import {ButtonTypes} from "../htmlTags/buttons/buttonTypes.enum";
+import {Button, ButtonTypes, Span, SpanSizeEnum, Input} from "../htmlTags";
 import {useDepartment} from "../../hooks/useDepartment";
 import {useRegistrationMutation} from "../../store/auth/auth.api";
 import {useActions} from "../../hooks/useActions";
@@ -83,10 +80,10 @@ export const Registration = (): JSX.Element => {
     <div>
       <div className={styles.authForm}>
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.large}>Регистрация</Span></div>
-        <form action="">
-          <Input placeholder='Введите email' name='email' type='text' handleChange={onChange} label='Email'/>
-          <Input placeholder='Введите пароль' name='password' type='password' handleChange={onChange} label='Пароль'/>
-          <Input placeholder='Введите пароль еще раз' name='passwordAgain' type='password' handleChange={onChange}
+        <form className={styles.form}>
+          <Input placeholder='Введите email' name='email' type='text' onChange={onChange} label='Email'/>
+          <Input placeholder='Введите пароль' name='password' type='password' onChange={onChange} label='Пароль'/>
+          <Input placeholder='Введите пароль еще раз' name='passwordAgain' type='password' onChange={onChange}
                  label='Пароль еще раз'/>
           {errorMessage}
           {!isPasswordMatch && <div className={styles.errorMessage}>Пароли не совпадают</div>}

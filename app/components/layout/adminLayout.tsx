@@ -15,6 +15,7 @@ import {CookiesEnum} from "../../enums/cookies.enum";
 import {UserRoleEnum} from "../../enums/userRole.enum";
 import Breadcrumbs from "../breadcrumbs";
 import {Modal} from "../modal";
+import {Alert} from "../alert";
 
 export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
   const router = useRouter();
@@ -52,6 +53,7 @@ export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
+      <Alert />
       <Modal />
       <AdminHeader className={styles.header}>
         <Breadcrumbs path={breadcrumbs} />

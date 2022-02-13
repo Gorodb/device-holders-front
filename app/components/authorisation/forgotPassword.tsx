@@ -9,9 +9,7 @@ export const ForgotPassword = (): JSX.Element => {
 
   const onSubmit = (event: ChangeEvent): void => {
     event.preventDefault();
-    console.log(authCredentials)
   }
-
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAuthCredentials({
@@ -24,7 +22,7 @@ export const ForgotPassword = (): JSX.Element => {
     <div>
       <div className={styles.authForm}>
         <div className={styles.title}><Span className={styles.title} size={SpanSizeEnum.large}>Восстановления пароля</Span></div>
-        <form action="">
+        <form className={styles.form}>
           <Input name='email' type='text' onChange={onChange} label='Email'/>
           <Button onClick={onSubmit} buttonType={ButtonTypes.black} isFullSize={true}>Восстановить пароль</Button>
           <div className={styles.regBlock}>

@@ -11,5 +11,5 @@ export const useDepartmentsOptions = (queryOptions: IPaginateParams = {page: 1, 
     }
   )
 
-  return {options, ...props}
+  return {options, data, ...props}
 }

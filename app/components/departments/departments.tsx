@@ -30,7 +30,7 @@ export const Departments = (): JSX.Element => {
   const selectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     const department: IDepartment = data!.items.find((dep: IDepartment) => dep.id === value)!;
-    Cookies.set(CookiesEnum.department, JSON.stringify(department))
+    Cookies.set(CookiesEnum.department, JSON.stringify(department), { expires: 365 })
     router.push('/')
   };
 

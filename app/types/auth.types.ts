@@ -21,6 +21,7 @@ export interface IUser {
   id?: string;
   email: string;
   name?: string;
+  location?: string;
   role?: string;
   phone?: any;
   description?: any;
@@ -32,6 +33,7 @@ export interface IUserCreate {
   id?: string;
   email: string;
   name?: string;
+  location?: string;
   role?: string;
   phone?: any;
   description?: any;
