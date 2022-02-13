@@ -1,4 +1,3 @@
-import {FaTimes} from "react-icons/fa";
 import {SearchInputProps} from "./searchInput.props";
 import styles from './searchInput.module.scss'
 
@@ -8,7 +7,7 @@ export const SearchInput = ({inputRef, value, onClear, label, ...props}: SearchI
       {label && <label className={styles.label}>{label}</label>}
       <div className={styles.inputContainer}>
         <input ref={inputRef} value={value} {...props} className={styles.input} />
-        {onClear && value && <FaTimes className={styles.icon} onClick={onClear}/>}
+        {onClear && value && <i className={styles.icon} onClick={onClear}/>}
       </div>
     </div>
   )

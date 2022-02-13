@@ -1,7 +1,6 @@
 import cn from "classnames";
 import {AdminSelectProps} from "./adminSelect.props";
 import styles from './adminSelect.module.scss';
-import {FaTimes} from "react-icons/fa";
 
 export const AdminSelect = ({children, selectedValue, onClear, label, defaultOptionText, className, ...props}: AdminSelectProps): JSX.Element => {
   return (
@@ -17,7 +16,7 @@ export const AdminSelect = ({children, selectedValue, onClear, label, defaultOpt
           {defaultOptionText && <option value='default'>{defaultOptionText}</option>}
           {children}
         </select>
-        {onClear && selectedValue && <FaTimes className={styles.icon} onClick={onClear}/>}
+        {onClear && selectedValue && <i className={styles.icon} onClick={onClear} />}
       </div>
     </div>
   )

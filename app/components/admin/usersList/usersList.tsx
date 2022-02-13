@@ -2,8 +2,8 @@ import {ChangeEvent, useEffect, useState} from "react";
 import {queryTypes, useQueryState} from 'next-usequerystate'
 import {useRouter} from "next/router";
 import Image from "next/image";
-import {GrRotateRight} from "react-icons/gr";
 
+import {TableFilters} from "../tableFilters";
 import styles from './usersList.module.scss';
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
 import {useActions} from "../../../hooks/useActions";
@@ -19,7 +19,6 @@ import {Pagination} from "../../pagination";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
 import {ALink} from "../../aLink";
-import {Button, ButtonTypes} from "../../htmlTags";
 
 const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
 
@@ -155,46 +154,38 @@ export const UsersList = (): JSX.Element => {
   }
 
   const filters = (
-    <div className={styles.filtersContainer}>
-      <div className={styles.filters}>
-        <div className={styles.searchContainer}>
-          <SearchInput
-            name="search"
-            type="text"
-            onChange={onSearchHandler}
-            label="Поиск пользователей"
-            placeholder="Введите имя, email или описание"
-            value={search || ""}
-            onClear={async () => {
-              await setPage(1)
-              await setSearch("")
-            }}
-          />
-        </div>
-        <div className={styles.searchContainer}>
-          {options && <AdminSelect
-            label="Выберите подразделение"
-            selectedValue={department}
-            onClear={async () => {
-              await setPage(1)
-              await setDepartment("")
-            }}
-            onChange={onSelectDepartment}
-            defaultOptionText={"Все"}
-          >{options}</AdminSelect>}
-        </div>
-        <GrRotateRight className={styles.rotate} onClick={async () => {
+    <TableFilters
+      onClickHandler={() => router.push(`/admin/users/create`)}
+      newItemButtonText="Добавить пользователя"
+      onClearHandler={async () => {
+        await setPage(1)
+        await setSearch("")
+        await setDepartment("")
+      }}
+    >
+      <SearchInput
+        name="search"
+        type="text"
+        onChange={onSearchHandler}
+        label="Поиск пользователей"
+        placeholder="Введите имя, email или описание"
+        value={search || ""}
+        onClear={async () => {
           await setPage(1)
           await setSearch("")
+        }}
+      />
+      {options && <AdminSelect
+        label="Выберите подразделение"
+        selectedValue={department}
+        onClear={async () => {
+          await setPage(1)
           await setDepartment("")
-        }} />
-      </div>
-      <div className={styles.filterButtons}>
-        <Button buttonType={ButtonTypes.white} onClick={() => {
-          router.push(`/admin/users/create`)}
-        }>Добавить пользователя</Button>
-      </div>
-    </div>
+        }}
+        onChange={onSelectDepartment}
+        defaultOptionText={"Все"}
+      >{options}</AdminSelect>}
+    </TableFilters>
   )
 
   return (

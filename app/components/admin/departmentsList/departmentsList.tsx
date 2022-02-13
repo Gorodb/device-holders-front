@@ -1,7 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {queryTypes, useQueryState} from 'next-usequerystate'
 import {useRouter} from "next/router";
-import {GrRotateRight} from "react-icons/gr";
 
 import styles from './departmentsList.module.scss';
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
@@ -15,8 +14,8 @@ import {Pagination} from "../../pagination";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
 import {ALink} from "../../aLink";
-import {Button, ButtonTypes} from "../../htmlTags";
 import {IDepartment} from "../../../types/departments.types";
+import {TableFilters} from "../tableFilters";
 
 export const DepartmentsList = (): JSX.Element => {
   const router = useRouter();
@@ -125,39 +124,25 @@ export const DepartmentsList = (): JSX.Element => {
 
   if (error) return <div>Что-то пошло не так</div>
 
-  const filters = (
-    <div className={styles.filtersContainer}>
-      <div className={styles.filters}>
-        <div className={styles.searchContainer}>
-          <SearchInput
-            name="search"
-            type="text"
-            onChange={onSearchHandler}
-            label="Поиск подразделений"
-            placeholder="Введите название или описание"
-            value={search || ""}
-            onClear={async () => {
-              await setPage(1)
-              await setSearch("")
-            }}
-          />
-        </div>
-        <GrRotateRight className={styles.rotate} onClick={async () => {
-          await setPage(1)
-          await setSearch("")
-        }} />
-      </div>
-      <div className={styles.filterButtons}>
-        <Button buttonType={ButtonTypes.white} onClick={() => {
-          router.push(`/admin/departments/create`)}
-        }>Добавить подразделение</Button>
-      </div>
-    </div>
-  )
-
   return (
     <div className={styles.listContainer}>
-      {filters}
+      <TableFilters
+        onClickHandler={() => router.push(`/admin/departments/create`)}
+        newItemButtonText="Добавить подразделение"
+      >
+        <SearchInput
+          name="search"
+          type="text"
+          onChange={onSearchHandler}
+          label="Поиск подразделений"
+          placeholder="Введите название или описание"
+          value={search || ""}
+          onClear={async () => {
+            await setPage(1)
+            await setSearch("")
+          }}
+        />
+      </TableFilters>
       <Table
         onDelete={onDelete}
         onDeleteMany={onDeleteMany}

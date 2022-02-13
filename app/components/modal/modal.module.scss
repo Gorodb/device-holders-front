@@ -26,8 +26,41 @@
     .close {
       position: absolute;
       cursor: pointer;
-      top: 15px;
+      top: 10px;
+      right: 3px;
+    }
+
+    .closeIcon {
+      position: absolute;
+      cursor: pointer;
+      top: 50%;
+      transform: translateY(-50%);
       right: 15px;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: -4px;
+        right: 7px;
+        border-bottom: 2px solid var(--admin-text);
+        height: 20px;
+        width: 20px;
+        transform: rotate(315deg);
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        border-bottom: 2px solid var(--admin-text);
+        height: 20px;
+        width: 20px;
+        transform: rotate(45deg);
+      }
     }
   }
 

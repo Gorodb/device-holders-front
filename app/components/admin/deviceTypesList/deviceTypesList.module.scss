@@ -6,49 +6,6 @@
   font-weight: 500;
 }
 
-.filtersContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px 20px;
-  background-color: var(--admin-drop-bg);
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
 .idColumnData {
   text-overflow: ellipsis;
-}
-
-.filters {
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-}
-
-.rotate {
-  cursor: pointer;
-  width: 28px;
-  height: 28px;
-  margin-bottom: 7px;
-  color: var(--admin-text);
-  transition: all .2s;
-
-  &:hover {
-    opacity: .9;
-    transform: scale(1.1);
-  }
-}
-
-.filterButtons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.searchContainer {
-  width: 320px;
-  margin-right: 20px;
 }

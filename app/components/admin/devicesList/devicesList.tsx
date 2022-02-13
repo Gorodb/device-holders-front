@@ -1,7 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {queryTypes, useQueryState} from 'next-usequerystate'
 import {useRouter} from "next/router";
-import {GrRotateRight} from "react-icons/gr";
 
 import styles from './devicesList.module.scss';
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
@@ -18,7 +17,7 @@ import {Pagination} from "../../pagination";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
 import {ALink} from "../../aLink";
-import {Button, ButtonTypes} from "../../htmlTags";
+import {TableFilters} from "../tableFilters";
 
 export const DevicesList = (): JSX.Element => {
   const router = useRouter();
@@ -152,9 +151,15 @@ export const DevicesList = (): JSX.Element => {
   }
 
   const filters = (
-    <div className={styles.filtersContainer}>
-      <div className={styles.filters}>
-        <div className={styles.searchContainer}>
+    <TableFilters
+      onClickHandler={() => router.push(`/admin/deviceTypes/create`)}
+      onClearHandler={async () => {
+        await setPage(1)
+        await setSearch("")
+        await setDepartment("")
+      }}
+      newItemButtonText="Добавить тип устройства"
+    >
           <SearchInput
             name="search"
             type="text"
@@ -167,8 +172,6 @@ export const DevicesList = (): JSX.Element => {
               await setSearch("")
             }}
           />
-        </div>
-        <div className={styles.searchContainer}>
           {options && <AdminSelect
             label="Выберите подразделение"
             selectedValue={department}
@@ -179,19 +182,7 @@ export const DevicesList = (): JSX.Element => {
             onChange={onSelectDepartment}
             defaultOptionText={"Все"}
           >{options}</AdminSelect>}
-        </div>
-        <GrRotateRight className={styles.rotate} onClick={async () => {
-          await setPage(1)
-          await setSearch("")
-          await setDepartment("")
-        }} />
-      </div>
-      <div className={styles.filterButtons}>
-        <Button buttonType={ButtonTypes.white} onClick={() => {
-          router.push(`/admin/devices/create`)}
-        }>Добавить устройство</Button>
-      </div>
-    </div>
+    </TableFilters>
   )
 
   return (

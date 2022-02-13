@@ -35,4 +35,25 @@
   right: 15px;
   height: 15px;
   width: 15px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: 7px;
+    border-bottom: 2px solid var(--admin-text);
+    width: 12px;
+    height: 12px;
+    transform: rotate(315deg);
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -1px;
+    border-bottom: 2px solid var(--admin-text);
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg);
+  }
 }

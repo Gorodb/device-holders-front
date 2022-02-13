@@ -1,5 +1,4 @@
 import {ChangeEvent, useEffect, useState} from "react";
-import {FaPen, FaTrashAlt} from 'react-icons/fa'
 import cn from 'classnames';
 
 import styles from './table.module.scss';
@@ -44,8 +43,8 @@ export const Table = ({children, showSpinner, onEdit, onDelete, onDeleteMany, ta
         {tableData.columns.map((column, inx) => <td key={inx}>{data[column]}</td>)}
         <td className={styles.iconsCell}>
           <div className={styles.iconsCellContainer}>
-            <FaTrashAlt className={styles.icon} onClick={() => {onDelete(data.rowId)}} />
-            <FaPen className={styles.icon} onClick={() => {onEdit(data.rowId)}}/>
+            <i className={cn(styles.icon, styles.trashIcon)} onClick={() => onDelete(data.rowId)} />
+            <i className={cn(styles.icon, styles.editIcon)} onClick={() => onDelete(data.rowId)} />
           </div>
         </td>
       </tr>
@@ -76,7 +75,7 @@ export const Table = ({children, showSpinner, onEdit, onDelete, onDeleteMany, ta
             <Checkbox onClick={onAllCheck} id="all" isChecked={allChecked} />
           </th>
           {tableHead}
-          <th></th>
+          <th />
         </tr>
         </thead>
         <tbody>

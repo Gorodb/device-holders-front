@@ -1,5 +1,4 @@
 import {useState, useEffect} from "react";
-import {MdClose} from "react-icons/md";
 
 import styles from './modal.module.scss'
 import {Button, ButtonTypes} from "../htmlTags";
@@ -35,7 +34,7 @@ export const Modal = (): JSX.Element => {
         <div className={styles.overlay} onClick={handleCloseClick}/>
         <div className={styles.modalContainer}>
           <div className={styles.close}>
-            <MdClose onClick={handleCloseClick} />
+            <i className={styles.closeIcon} onClick={handleCloseClick} />
           </div>
           <div className={styles.modalContent}>
             <span className={styles.title}>{title}</span>

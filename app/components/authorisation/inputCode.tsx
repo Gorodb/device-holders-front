@@ -1,7 +1,6 @@
 import styles from './authorisation.module.scss';
 import {ChangeEvent, useEffect, useState} from "react";
 import {ButtonTypes, Input, Button, Span, SpanSizeEnum} from "../htmlTags";
-import {InputCodeProps} from "./props/inputCode.props";
 import {useResendCodeMutation, useValidateCodeMutation} from "../../store/auth/auth.api";
 import {useRouter} from "next/router";
 import Cookies from "js-cookie";
@@ -9,7 +8,7 @@ import {CookiesEnum} from "../../enums/cookies.enum";
 import {ActionsEnum} from "../../enums/actions.enum";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 
-export const InputCode = ({ action }: InputCodeProps): JSX.Element => {
+export const InputCode = (): JSX.Element => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [validateCode, {error, isError, isLoading, isSuccess, reset}] = useValidateCodeMutation();
   const [resendCode] = useResendCodeMutation();

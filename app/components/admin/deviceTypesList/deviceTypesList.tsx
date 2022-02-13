@@ -1,7 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {queryTypes, useQueryState} from 'next-usequerystate'
 import {useRouter} from "next/router";
-import {GrRotateRight} from "react-icons/gr";
 
 import styles from './deviceTypesList.module.scss';
 import {IBreadcrumbs} from "../../../types/breadcrumbs.types";
@@ -11,13 +10,12 @@ import {ITableData, ITableDataHead, Table} from "../table";
 import {IDeviceType} from "../../../types/deviceTypes.types";
 import {emptyModal} from "../../../store/modal/modal.slice";
 import SearchInput from "../searchInput";
-import AdminSelect from "../adminSelect";
 import {IPagination} from "../../../types/pagination.types";
 import {Pagination} from "../../pagination";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
 import {ALink} from "../../aLink";
-import {Button, ButtonTypes} from "../../htmlTags";
+import {TableFilters} from "../tableFilters";
 
 export const DeviceTypesList = (): JSX.Element => {
   const router = useRouter();
@@ -132,34 +130,28 @@ export const DeviceTypesList = (): JSX.Element => {
     return <CircleLoader type={CircleTypes.dark} />
   }
 
+  const clearSearchHandler = async () => {
+    await setPage(1)
+    await setSearch("")
+  }
+
   const filters = (
-    <div className={styles.filtersContainer}>
-      <div className={styles.filters}>
-        <div className={styles.searchContainer}>
-          <SearchInput
-            name="search"
-            type="text"
-            onChange={onSearchHandler}
-            label="Поиск устройств"
-            placeholder="Введите тип, описание или имя"
-            value={search || ""}
-            onClear={async () => {
-              await setPage(1)
-              await setSearch("")
-            }}
-          />
-        </div>
-        <GrRotateRight className={styles.rotate} onClick={async () => {
-          await setPage(1)
-          await setSearch("")
-        }} />
+    <TableFilters
+      onClickHandler={() => router.push(`/admin/deviceTypes/create`)}
+      newItemButtonText="Добавить тип устройства"
+    >
+      <div className={styles.searchContainer}>
+        <SearchInput
+          name="search"
+          type="text"
+          onChange={onSearchHandler}
+          label="Поиск устройств"
+          placeholder="Введите тип, описание или имя"
+          value={search || ""}
+          onClear={clearSearchHandler}
+        />
       </div>
-      <div className={styles.filterButtons}>
-        <Button buttonType={ButtonTypes.white} onClick={() => {
-          router.push(`/admin/deviceTypes/create`)}
-        }>Добавить устройство</Button>
-      </div>
-    </div>
+    </TableFilters>
   )
 
   return (
