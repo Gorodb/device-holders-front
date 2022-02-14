@@ -23,3 +23,7 @@
   color: var(--text-input);
   margin: 10px 0 10px 0;
 }
+
+.requiredInfo {
+  @include required;
+}

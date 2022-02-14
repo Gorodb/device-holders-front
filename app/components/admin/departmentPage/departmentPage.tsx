@@ -126,6 +126,7 @@ export const DepartmentPage = ({id}: DepartmentPageProps): JSX.Element => {
             type="text"
             value={department.name || ""}
             placeholder="Укажите подразделение"
+            isRequired={true}
           />
           <Textarea
             name="description"
@@ -133,6 +134,7 @@ export const DepartmentPage = ({id}: DepartmentPageProps): JSX.Element => {
             label='Описание подразделения'
             value={department.description || ""}
             placeholder="Укажите описание подразделения"
+            isRequired={true}
           />
         </div>
       </div>

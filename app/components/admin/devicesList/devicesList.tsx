@@ -152,13 +152,13 @@ export const DevicesList = (): JSX.Element => {
 
   const filters = (
     <TableFilters
-      onClickHandler={() => router.push(`/admin/deviceTypes/create`)}
+      onClickHandler={() => router.push(`/admin/devices/create`)}
       onClearHandler={async () => {
         await setPage(1)
         await setSearch("")
         await setDepartment("")
       }}
-      newItemButtonText="Добавить тип устройства"
+      newItemButtonText="Добавить устройство"
     >
           <SearchInput
             name="search"
@@ -174,7 +174,7 @@ export const DevicesList = (): JSX.Element => {
           />
           {options && <AdminSelect
             label="Выберите подразделение"
-            selectedValue={department}
+            value={department}
             onClear={async () => {
               await setPage(1)
               await setDepartment("")

@@ -5,4 +5,6 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
   defaultOptionText: string;
   children: ReactNode;
+  isRequired?: boolean;
+  requiredText?: string;
 }

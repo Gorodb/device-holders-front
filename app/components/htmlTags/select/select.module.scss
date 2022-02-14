@@ -18,3 +18,7 @@
 .label {
   color: var(--admin-text);
 }
+
+.requiredInfo {
+  @include required;
+}

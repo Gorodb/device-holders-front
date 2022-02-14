@@ -177,7 +177,7 @@ export const UsersList = (): JSX.Element => {
       />
       {options && <AdminSelect
         label="Выберите подразделение"
-        selectedValue={department}
+        value={department}
         onClear={async () => {
           await setPage(1)
           await setDepartment("")

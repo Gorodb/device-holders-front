@@ -1,0 +1,18 @@
+@mixin required {
+  margin-top: 4px;
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--admin-required);
+
+  &:before {
+    content: "!";
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    color: var(--white);
+    background-color: var(--admin-required);
+    text-align: center;
+    margin-right: 8px;
+  }
+}

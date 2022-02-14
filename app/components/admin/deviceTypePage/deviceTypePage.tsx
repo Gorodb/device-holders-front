@@ -127,6 +127,7 @@ export const DeviceTypePage = ({id}: DeviceTypePageProps): JSX.Element => {
             type="text"
             value={deviceType.deviceType || ""}
             placeholder="Укажите тип устройства"
+            isRequired={true}
           />
           <Input
             name="title"
@@ -136,6 +137,7 @@ export const DeviceTypePage = ({id}: DeviceTypePageProps): JSX.Element => {
             type="text"
             value={deviceType.title || ""}
             placeholder="Укажите имя типа устройства"
+            isRequired={true}
           />
         </div>
         <div className={styles.rightColumn}>
@@ -145,6 +147,7 @@ export const DeviceTypePage = ({id}: DeviceTypePageProps): JSX.Element => {
               label='Описание типа устройства'
               value={deviceType.description || ""}
               placeholder="Укажите описание типа устройства"
+              isRequired={true}
             />
         </div>
       </div>

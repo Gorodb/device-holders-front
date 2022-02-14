@@ -31,10 +31,10 @@ const emptyUser = {
   "email": "",
   "name": "",
   "role": "user",
-  "phone": "",
+  "phone": null,
   "description": "",
   "logo": null,
-  "department": "",
+  "department": "default",
   "password": "",
   "location": ""
 };
@@ -57,23 +57,18 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   useEffect(() => {
     if (id && id !== 'create') {
       getUser(id)
-    } else if (isDepartmentsSuccess && departments) {
-      setUser({...user, department: departments.items[0].id})
     }
   }, [departments, getUser, id, isDepartmentsSuccess])
 
   useEffect(() => {
     if (isUserUpdated) {
       setAlert({text: 'Пользователь сохранен', type: AlertsTypesEnum.success}, 3000)
-    }
-    if (isErrorUserUpdate && updateError) {
+    } else if (isErrorUserUpdate && updateError) {
       setAlert({text: `Не удалось обновить пользователя: ${id}`, type: AlertsTypesEnum.error}, 3000)
-    }
-    if (isUserCreated) {
+    } else if (isUserCreated) {
       setAlert({text: 'Пользователь создан', type: AlertsTypesEnum.success}, 3000)
       router.push(`/admin/users/${createdUser.id}`)
-    }
-    if (isErrorUserCreate && createUserError) {
+    } else if (isErrorUserCreate && createUserError) {
       // @ts-ignore
       const text = typeof createUserError.data.message === 'string'
         // @ts-ignore
@@ -88,17 +83,17 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
     if (data && isSuccess && !isLoading) {
       data.department
         ? setUser({...data, department: data.department.id})
-        : setUser({...data, department: ""})
+        : setUser({...data, department: "default"})
     }
   }, [isSuccess, data, isLoading])
 
   useEffect(() => {
-    if (!user.department || !user.name || !user.email) {
-      setIsDisabled(true)
-    } else {
-      setIsDisabled(false)
-    }
-  }, [data, user])
+    user.department === "default" || !user.name || !user.email
+      ? setIsDisabled(true)
+      : id === 'create' && !user.password
+        ? setIsDisabled(true)
+        : setIsDisabled(false)
+  }, [data, id, user])
 
   useEffect(() => {
     if (imgUploadData && isSuccessUpload) {
@@ -147,7 +142,8 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
 
   const onDepartmentSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
-    setUser({...user, department: event.target.value})
+    const department = event.target.value ? event.target.value : ""
+    setUser({...user, department})
   }
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -155,10 +151,16 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
     setUser({...user, [event.target.name]: event.target.value})
   }
 
+  const onChangePhone = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
+    const phone = event.target.value ? event.target.value : null
+    setUser({...user, phone})
+  }
+
   const onChangePasswordInput = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     const newPassword = event.target.value;
-    const userWithoutPassword = user
+    const userWithoutPassword = {...user}
     delete userWithoutPassword.password
     newPassword ? setUser({...user, password: newPassword}) : setUser(userWithoutPassword)
   }
@@ -188,6 +190,7 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
             type="text"
             value={user.name || ""}
             placeholder="Введите имя пользователя"
+            isRequired={true}
           />
           <Input
             name="location"
@@ -245,8 +248,8 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
             <Input
               name="phone"
               value={user.phone || ""}
-              onChange={onChangeInput}
-              onClear={() => setUser({...user, phone: ""})}
+              onChange={onChangePhone}
+              onClear={() => setUser({...user, phone: null})}
               label='Телефон'
               type="text"
               placeholder="Введите номер пользователя"
@@ -260,6 +263,7 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
               label='Email'
               type="email"
               placeholder="Введите email"
+              isRequired={true}
             />
             <Input
               name="password"
@@ -269,12 +273,13 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
               label='Пароль'
               type="password"
               placeholder="Введите пароль"
+              isRequired={id === 'create' && !user.password}
             />
             <AdminSelect
               name="role"
               label="Тип учетной записи"
               className={styles.select}
-              value={user.role || 'user'}
+              value={user.role}
               onChange={onChangeSelect}
             >
               <option value={'user'}>Пользователь</option>
@@ -282,8 +287,10 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
             </AdminSelect>
             {options && <AdminSelect
               label="Подразделение"
-              selectedValue={user.department}
+              value={user.department}
               onChange={onDepartmentSelect}
+              defaultOptionText="Выбор подразделения"
+              isRequired={true}
             >{options}</AdminSelect>}
           </form>
         </div>

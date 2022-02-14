@@ -95,15 +95,12 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
   useEffect(() => {
     if (isDeviceUpdated) {
       setAlert({text: 'Устройство обновлено', type: AlertsTypesEnum.success}, 3000)
-    }
-    if (isErrorDeviceUpdate) {
+    } else if (isErrorDeviceUpdate) {
       setAlert({text: `Не удалось обновить устройство: ${id}`, type: AlertsTypesEnum.error}, 3000)
-    }
-    if (isDeviceCreated) {
+    } else if (isDeviceCreated) {
       setAlert({text: 'Устройство создано', type: AlertsTypesEnum.success}, 3000)
       router.push(`/admin/devices/${createdDevice.id}`)
-    }
-    if (isErrorDeviceCreate && createDeviceError) {
+    } else if (isErrorDeviceCreate && createDeviceError) {
       // @ts-ignore
       const text = typeof createDeviceError.data.message === 'string'
         // @ts-ignore
@@ -121,6 +118,7 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
       || !deviceToUpdate.deviceType
       || !deviceToUpdate.osName
       || !deviceToUpdate.inventoryNumber
+      || !deviceToUpdate.defaultLocation
     ) {
       setIsDisabled(true)
     } else {
@@ -187,6 +185,7 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
             type="text"
             value={deviceToUpdate.name || ""}
             placeholder="Укажите название устройства"
+            isRequired={true}
           />
           <Input
             name="inventoryNumber"
@@ -196,6 +195,7 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
             type="text"
             value={deviceToUpdate.inventoryNumber || ""}
             placeholder="Укажите инвентаризационный номер"
+            isRequired={true}
           />
           <Textarea
             name="defaultLocation"
@@ -203,6 +203,7 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
             label='Место хранения устройства по умолчанию'
             value={deviceToUpdate.defaultLocation || ""}
             placeholder="Укажите место хранения устройства по умолчанию"
+            isRequired={true}
           />
           <Textarea
             name="currentLocation"
@@ -222,6 +223,7 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
               type="text"
               value={deviceToUpdate.osName || ""}
               placeholder="Укажите название ОС"
+              isRequired={true}
             />
             <Input
               name="owner"
@@ -248,11 +250,13 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
               value={deviceToUpdate.deviceType || 'default'}
               onChange={onChangeSelect}
               defaultOptionText="Выберите тип устройства"
+              isRequired={true}
             >{deviceTypesOptions}</AdminSelect>}
             {departmentsOptions && <AdminSelect
               label="Подразделение"
-              selectedValue={deviceToUpdate.department}
+              value={deviceToUpdate.department}
               onChange={onDepartmentSelect}
+              isRequired={true}
             >{departmentsOptions}</AdminSelect>}
           </form>
         </div>
