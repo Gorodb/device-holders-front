@@ -1,23 +1,14 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {build} from 'search-params';
 import {ICreateDevice, IDevice, IDevices, IGetDevicesParams} from "../../types/device.types";
-import Cookies from "js-cookie";
-import {CookiesEnum} from "../../enums/cookies.enum";
-import {TypeRootState} from "../store";
+import {headersUtils} from "../../utils/headers.utils";
 
 export const deviceApi = createApi({
   reducerPath: 'api/devices',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/devices`,
-    prepareHeaders: (headers, api) => {
-      const state = api.getState() as TypeRootState
-      if (state.auth.isAuth) {
-        const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
-        headers.set("Authorization", authorisation)
-      }
-      return headers
-    }}
-  ),
+    prepareHeaders: headersUtils
+  }),
   tagTypes: ['Get', 'GetDevice'],
   endpoints: (builder) => {
     return {

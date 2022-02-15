@@ -1,10 +1,8 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {build} from 'search-params';
-import Cookies from "js-cookie";
-import {CookiesEnum} from "../../enums/cookies.enum";
 import {IUser, IUserCreate, IUsers} from "../../types/auth.types";
 import {IPaginateParams} from "../../types/pagination.types";
-import {TypeRootState} from "../store";
+import {headersUtils} from "../../utils/headers.utils";
 
 export interface IGetUsersParams extends IPaginateParams {
   search?: string,
@@ -15,14 +13,7 @@ export const usersApi = createApi({
   reducerPath: 'api/usersList',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/`,
-    prepareHeaders: (headers, api) => {
-      const state = api.getState() as TypeRootState
-      if (state.auth.isAuth) {
-        const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
-        headers.set("Authorization", authorisation)
-      }
-      return headers
-    }
+    prepareHeaders: headersUtils
   }),
   tagTypes: ['Get', 'GetUser'],
   endpoints: (builder) => {
