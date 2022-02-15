@@ -19,7 +19,7 @@ import {Alert} from "../alert";
 
 export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
   const router = useRouter();
-  const {setUser, setIsAdmin} = useActions()
+  const {setUser, setIsAuth, setIsAdmin} = useActions()
   const {id}: IUser = useTypedSelector(store => store.auth.user)
   const breadcrumbs = useTypedSelector((state) => state.breadcrumbs.breadcrumbs)
   const [getUserInfo, {data, isSuccess, isLoading, status}] = useUserInfoMutation()
@@ -31,7 +31,8 @@ export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
     } else if (!isAuthToken) {
       router.push('/auth')
     }
-  }, [getUserInfo, id, router])
+    setIsAuth(isAuthToken)
+  }, [getUserInfo, id, router, setIsAuth])
 
   useEffect(() => {
     if (isSuccess && data) {
