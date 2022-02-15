@@ -1,6 +1,7 @@
 import {useGetDevicesQuery} from "../../store/devices/device.api";
 import {IDevice} from "../../types/device.types";
 import {useDepartment} from "../../hooks/useDepartment";
+import {Device} from "./components/device";
 
 export const DevicesList = (): JSX.Element => {
   const department = useDepartment()
@@ -15,9 +16,7 @@ export const DevicesList = (): JSX.Element => {
 
   return (
     <div>
-      {data && data.items.map((device: IDevice): JSX.Element => (
-        <div key={device.id}>{device.name} | {device.deviceType.description}</div>
-      ))}
+      {data && data.items.map((device: IDevice): JSX.Element => <Device device={device} key={device.id} />)}
     </div>
   )
 }

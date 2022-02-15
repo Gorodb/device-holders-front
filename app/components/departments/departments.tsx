@@ -2,24 +2,27 @@ import {ChangeEvent, useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import {useRouter} from "next/router";
 
-import {useGetDepartmentsQuery} from "../../store/departments/departments.api";
 import {CircleLoader, CircleTypes} from "../loaders";
 import {IDepartment} from "../../types/departments.types";
 import styles from './departments.module.scss';
 import {CookiesEnum} from "../../enums/cookies.enum";
 import {Select, Span, SpanSizeEnum} from "../htmlTags";
+import {ALink} from "../aLink";
+import {useDepartmentsOptions} from "../../hooks/useDepartmentsOptions";
 
 export const Departments = (): JSX.Element => {
-  const [currentDepartment, setCurrentDepartment] = useState<string>('default')
+  const [currentDepartment, setCurrentDepartment] = useState<string>("")
   const [departmentFromCookies, setDepartmentFromCookies] = useState<string>()
-  const {data, isLoading} = useGetDepartmentsQuery({page: 1, limit: 1000})
+  const {options, data, isLoading} = useDepartmentsOptions()
   const router = useRouter()
 
   useEffect(() => {
     setDepartmentFromCookies(Cookies.get(CookiesEnum.department))
     if (departmentFromCookies) {
       const department: IDepartment = JSON.parse(departmentFromCookies)
-      setCurrentDepartment(department.id);
+      if (department.id) {
+        setCurrentDepartment(department.id);
+      }
     }
   }, [departmentFromCookies])
 
@@ -34,11 +37,7 @@ export const Departments = (): JSX.Element => {
     router.push('/')
   };
 
-  const options: JSX.Element[] | undefined = data && data.items.map((department: IDepartment): JSX.Element => {
-      const value = `${department.name} - ${department.description}`
-      return <option key={department.id} value={department.id}>{value}</option>
-    }
-  )
+  const returnToMainBtn = <ALink href="/" className={styles.backToMainLink}>Вернуться на главную</ALink>
 
   return (
     <div className={styles.layout}>
@@ -51,12 +50,13 @@ export const Departments = (): JSX.Element => {
         <div className={styles.selectContainer}>
           {
             options && <Select
-              defaultValue={currentDepartment}
+              value={currentDepartment}
               onChange={selectChange}
               defaultOptionText="Выберите департамент"
             >{options}</Select>
           }
         </div>
+        {currentDepartment && returnToMainBtn}
       </div>
     </div>
   )

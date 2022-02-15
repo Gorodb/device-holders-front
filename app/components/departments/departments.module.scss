@@ -29,5 +29,13 @@
 
 .title {
   margin-bottom: 20px;
+}
 
+.backToMainLink {
+  margin-top: 10px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

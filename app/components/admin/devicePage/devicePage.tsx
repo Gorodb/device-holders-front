@@ -247,7 +247,7 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
               name="deviceType"
               label="Тип устройства"
               className={styles.select}
-              value={deviceToUpdate.deviceType || 'default'}
+              value={deviceToUpdate.deviceType || ""}
               onChange={onChangeSelect}
               defaultOptionText="Выберите тип устройства"
               isRequired={true}

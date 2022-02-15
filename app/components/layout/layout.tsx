@@ -38,7 +38,7 @@ export const Layout = ({ children }: LayoutProps): JSX.Element => {
   useEffect(() => {
     const departmentFromCookies = Cookies.get(CookiesEnum.department)
     if (!departmentFromCookies) {
-      router.push('/changeRegion')
+      router.push('/changeDepartment')
     }
   }, [router])
 

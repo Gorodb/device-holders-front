@@ -98,11 +98,7 @@ export const DevicesList = (): JSX.Element => {
 
   const onSelectDepartment = async (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
-    if (event.target.value === 'default') {
-      await setDepartment("")
-    } else {
-      await setDepartment(event.target.value)
-    }
+    await setDepartment(event.target.value)
     await setPage(1)
   }
 
@@ -160,28 +156,28 @@ export const DevicesList = (): JSX.Element => {
       }}
       newItemButtonText="Добавить устройство"
     >
-          <SearchInput
-            name="search"
-            type="text"
-            onChange={onSearchHandler}
-            label="Поиск устройств"
-            placeholder="Введите название или операционную систему"
-            value={search || ""}
-            onClear={async () => {
-              await setPage(1)
-              await setSearch("")
-            }}
-          />
-          {options && <AdminSelect
-            label="Выберите подразделение"
-            value={department}
-            onClear={async () => {
-              await setPage(1)
-              await setDepartment("")
-            }}
-            onChange={onSelectDepartment}
-            defaultOptionText={"Все"}
-          >{options}</AdminSelect>}
+      <SearchInput
+        name="search"
+        type="text"
+        onChange={onSearchHandler}
+        label="Поиск устройств"
+        placeholder="Введите название или операционную систему"
+        value={search || ""}
+        onClear={async () => {
+          await setPage(1)
+          await setSearch("")
+        }}
+      />
+      {options && <AdminSelect
+        label="Выберите подразделение"
+        value={department}
+        onClear={async () => {
+          await setPage(1)
+          await setDepartment("")
+        }}
+        onChange={onSelectDepartment}
+        defaultOptionText={"Все"}
+      >{options}</AdminSelect>}
     </TableFilters>
   )
 

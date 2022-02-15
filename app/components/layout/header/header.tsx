@@ -30,7 +30,7 @@ export const Header = ({className, isAdmin, ...props}: HeaderProps): JSX.Element
   return (
     <header {...props} className={cn(className, styles.header)}>
       <div>
-        <Link href='/changeRegion'><a className={styles.menuItem}>Сменить регион</a></Link>
+        <Link href='/changeDepartment'><a className={styles.menuItem}>Сменить подразделение</a></Link>
         <Link href='/'><a className={styles.menuItem}>Все устройства</a></Link>
       </div>
       <div>

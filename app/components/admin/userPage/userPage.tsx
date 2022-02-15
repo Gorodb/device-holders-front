@@ -34,7 +34,7 @@ const emptyUser = {
   "phone": null,
   "description": "",
   "logo": null,
-  "department": "default",
+  "department": "",
   "password": "",
   "location": ""
 };
@@ -83,12 +83,12 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
     if (data && isSuccess && !isLoading) {
       data.department
         ? setUser({...data, department: data.department.id})
-        : setUser({...data, department: "default"})
+        : setUser({...data, department: ""})
     }
   }, [isSuccess, data, isLoading])
 
   useEffect(() => {
-    user.department === "default" || !user.name || !user.email
+    !user.department || !user.name || !user.email
       ? setIsDisabled(true)
       : id === 'create' && !user.password
         ? setIsDisabled(true)

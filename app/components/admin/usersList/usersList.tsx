@@ -101,11 +101,7 @@ export const UsersList = (): JSX.Element => {
 
   const onSelectDepartment = async (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
-    if (event.target.value === 'default') {
-      await setDepartment("")
-    } else {
-      await setDepartment(event.target.value)
-    }
+    await setDepartment(event.target.value)
     await setPage(1)
   }
 

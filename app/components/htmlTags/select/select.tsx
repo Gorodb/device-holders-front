@@ -8,10 +8,10 @@ export const Select = ({label, children, defaultOptionText, isRequired, required
     <>
       {label && <label className={styles.label} htmlFor="select">{label}</label>}
         <select name="select" className={cn(styles.select, className)} {...props}>
-        <option disabled value='default'>{defaultOptionText}</option>
+        <option disabled value=''>{defaultOptionText}</option>
         {children}
       </select>
-      {isRequired && props.value !== "default" && <span className={styles.requiredInfo}>{requiredText || "Обязательное поле"}</span>}
+      {isRequired && !props.value && <span className={styles.requiredInfo}>{requiredText || "Обязательное поле"}</span>}
     </>
   )
 }

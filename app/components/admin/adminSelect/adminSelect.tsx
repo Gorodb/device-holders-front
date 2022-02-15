@@ -18,14 +18,14 @@ export const AdminSelect = ({
       <div className={styles.selectContainer}>
         <select
           name="adminSelect"
-          value={props.value ? props.value : 'default'}
+          value={props.value ? props.value : ""}
           className={cn(styles.select, className)}
           {...props}
         >
-          {defaultOptionText && <option disabled value='default'>{defaultOptionText}</option>}
+          {defaultOptionText && <option disabled value="">{defaultOptionText}</option>}
           {children}
         </select>
-        {isRequired && props.value === "default" && <span className={styles.requiredInfo}>{requiredText || "Обязательное поле"}</span>}
+        {isRequired && !props.value && <span className={styles.requiredInfo}>{requiredText || "Обязательное поле"}</span>}
         {onClear && props.value && <i className={styles.icon} onClick={onClear} />}
       </div>
     </div>

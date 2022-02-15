@@ -1,9 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {build} from 'search-params';
-import {IUser, IUserCreate, IUsers} from "../../types/auth.types";
-import {IPaginateParams} from "../../types/pagination.types";
 import Cookies from "js-cookie";
 import {CookiesEnum} from "../../enums/cookies.enum";
+import {IUser, IUserCreate, IUsers} from "../../types/auth.types";
+import {IPaginateParams} from "../../types/pagination.types";
 
 export interface IGetUsersParams extends IPaginateParams {
   search?: string,
@@ -16,6 +16,7 @@ export const usersApi = createApi({
   tagTypes: ['Get', 'GetUser'],
   endpoints: (builder) => {
     const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
+    console.log(authorisation)
     return {
       getUsers: builder.query<IUsers, IGetUsersParams>({
         query: (queryParams: IGetUsersParams) => ({
@@ -83,4 +84,11 @@ export const usersApi = createApi({
   }
 });
 
-export const {useGetUsersQuery, useLazyGetUserQuery, useGetUserQuery, useUploadPhotoMutation, useUpdateUsersMutation, useCreateUsersMutation, useDeleteUsersMutation} = usersApi;
+export const {
+  useGetUsersQuery,
+  useLazyGetUserQuery,
+  useUploadPhotoMutation,
+  useUpdateUsersMutation,
+  useCreateUsersMutation,
+  useDeleteUsersMutation
+} = usersApi;
