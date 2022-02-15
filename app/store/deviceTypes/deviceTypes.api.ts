@@ -3,13 +3,23 @@ import {build} from 'search-params';
 import Cookies from "js-cookie";
 import {CookiesEnum} from "../../enums/cookies.enum";
 import {IDeviceType, IDeviceTypes, IGetDeviceTypesParams} from "../../types/deviceTypes.types";
+import {TypeRootState} from "../store";
 
 export const deviceTypesApi = createApi({
   reducerPath: 'api/deviceTypes',
-  baseQuery: fetchBaseQuery({baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/device_types`}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/device_types`,
+    prepareHeaders: (headers, api) => {
+      const state = api.getState() as TypeRootState
+      if (state.auth.isAuth) {
+        const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
+        headers.set("Authorization", authorisation)
+      }
+      return headers
+    }
+  }),
   tagTypes: ['Get', 'GetDeviceType'],
   endpoints: (builder) => {
-    const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
     return {
       getDeviceTypes: builder.query<IDeviceTypes, IGetDeviceTypesParams>({
         query: (queryParams: IGetDeviceTypesParams) => ({
@@ -20,7 +30,6 @@ export const deviceTypesApi = createApi({
       getDeviceType: builder.query<IDeviceType, string>({
         query: (id: string) => ({
           url: `/${id}`,
-          headers: { Authorization: authorisation },
         }),
         providesTags: ['GetDeviceType'],
       }),
@@ -28,7 +37,6 @@ export const deviceTypesApi = createApi({
         query: (body: IDeviceType) => ({
           url: "/",
           method: "POST",
-          headers: { Authorization: authorisation },
           body,
           crossDomain: true,
           responseType: "json"
@@ -39,7 +47,6 @@ export const deviceTypesApi = createApi({
         query: ({ id, ...body}: IDeviceType) => ({
           url: `/${id}`,
           method: "PUT",
-          headers: { Authorization: authorisation },
           body,
           crossDomain: true,
           responseType: "json"
@@ -50,7 +57,6 @@ export const deviceTypesApi = createApi({
         query: (id: string) => ({
           url: `/${id}`,
           method: "DELETE",
-          headers: { Authorization: authorisation },
           crossDomain: true,
           responseType: "json",
         }),

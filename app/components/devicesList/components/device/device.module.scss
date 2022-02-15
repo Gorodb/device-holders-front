@@ -1,0 +1,15 @@
+.deviceContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--device-border);
+  border-radius: 10px;
+  background-color: var(--device-bg);
+}
+
+.device {
+
+}

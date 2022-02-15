@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import {CookiesEnum} from "../../enums/cookies.enum";
 import {IUser, IUserCreate, IUsers} from "../../types/auth.types";
 import {IPaginateParams} from "../../types/pagination.types";
+import {TypeRootState} from "../store";
 
 export interface IGetUsersParams extends IPaginateParams {
   search?: string,
@@ -12,23 +13,29 @@ export interface IGetUsersParams extends IPaginateParams {
 
 export const usersApi = createApi({
   reducerPath: 'api/usersList',
-  baseQuery: fetchBaseQuery({baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/`}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/`,
+    prepareHeaders: (headers, api) => {
+      const state = api.getState() as TypeRootState
+      if (state.auth.isAuth) {
+        const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
+        headers.set("Authorization", authorisation)
+      }
+      return headers
+    }
+  }),
   tagTypes: ['Get', 'GetUser'],
   endpoints: (builder) => {
-    const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
-    console.log(authorisation)
     return {
       getUsers: builder.query<IUsers, IGetUsersParams>({
         query: (queryParams: IGetUsersParams) => ({
           url: `users/get?${build(queryParams)}`,
-          headers: { Authorization: authorisation },
         }),
         providesTags: ['Get'],
       }),
       getUser: builder.query<IUser, string>({
         query: (id: string) => ({
           url: `users/get/${id}`,
-          headers: { Authorization: authorisation },
         }),
         providesTags: ['GetUser'],
       }),
@@ -39,9 +46,6 @@ export const usersApi = createApi({
           return {
             url: "files/upload",
             method: "POST",
-            headers: {
-              "Authorization": authorisation,
-            },
             body: fd,
             crossDomain: true,
             responseType: "json"
@@ -52,7 +56,6 @@ export const usersApi = createApi({
         query: (body: IUserCreate) => ({
           url: "users/create",
           method: "POST",
-          headers: { Authorization: authorisation },
           body,
           crossDomain: true,
           responseType: "json"
@@ -63,7 +66,6 @@ export const usersApi = createApi({
         query: ({ id, ...body}) => ({
           url: `users/update/${id}`,
           method: "PUT",
-          headers: { Authorization: authorisation },
           body,
           crossDomain: true,
           responseType: "json"
@@ -74,7 +76,6 @@ export const usersApi = createApi({
         query: (id: string) => ({
           url: `users/${id}`,
           method: "DELETE",
-          headers: { Authorization: authorisation },
           crossDomain: true,
           responseType: "json",
         }),

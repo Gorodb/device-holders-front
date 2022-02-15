@@ -4,18 +4,27 @@ import {ICreateDevice, IDevice, IDevices, IGetDevicesParams} from "../../types/d
 import Cookies from "js-cookie";
 import {CookiesEnum} from "../../enums/cookies.enum";
 import {IDeviceHolders} from "../../types/deviceHolders.type";
+import {TypeRootState} from "../store";
 
 export const deviceHoldersApi = createApi({
   reducerPath: 'api/deviceHolders',
-  baseQuery: fetchBaseQuery({baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/device`}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/device`,
+    prepareHeaders: (headers, api) => {
+      const state = api.getState() as TypeRootState
+      if (state.auth.isAuth) {
+        const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
+        headers.set("Authorization", authorisation)
+      }
+      return headers
+    }
+  }),
   endpoints: (builder) => {
-    const authorisation = 'Bearer ' + Cookies.get(CookiesEnum.authorisation)
     return {
       takeDevice: builder.mutation<any, IDeviceHolders>({
         query: (body: IDeviceHolders) => ({
           url: "/take",
           method: "POST",
-          headers: {Authorization: authorisation},
           body,
           crossDomain: true,
           responseType: "json"
@@ -25,7 +34,6 @@ export const deviceHoldersApi = createApi({
         query: (body: IDeviceHolders) => ({
           url: `/return`,
           method: "POST",
-          headers: {Authorization: authorisation},
           body,
           crossDomain: true,
           responseType: "json"
@@ -36,7 +44,6 @@ export const deviceHoldersApi = createApi({
           url: `/return_to_previous`,
           method: "POST",
           body,
-          headers: {Authorization: authorisation},
           crossDomain: true,
           responseType: "json",
         }),
