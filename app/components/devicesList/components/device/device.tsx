@@ -51,7 +51,11 @@ export const Device = ({device}: DeviceProps): JSX.Element => {
         <div>
           <span className={styles.title}>Местонахождение: </span>
           <span
-            className={styles.text}>{device.heldByUser && device.heldByUser.location ? device.heldByUser.location : device.defaultLocation}</span>
+            className={styles.text}>{
+            device.heldByUser && device.heldByUser.location
+              ? device.heldByUser.location
+              : device.defaultLocation}
+          </span>
         </div>
         {device.heldByUser && <div>
           <span className={styles.title}>Устройство у пользователя: </span>
@@ -63,7 +67,8 @@ export const Device = ({device}: DeviceProps): JSX.Element => {
         {isTaken && isReturnToPrev
           && <i onClick={returnDeviceToPrevHandler} className={cn(styles.icon, styles.returnToPrev)}/>
         }
-        {currentUser.id && !isTaken && <Button onClick={takeDeviceHandler} buttonType={ButtonTypes.white}>Взять</Button>}
+        {currentUser.id && !isTaken &&
+          <Button onClick={takeDeviceHandler} buttonType={ButtonTypes.white}>Взять</Button>}
       </div>
     </div>
   )

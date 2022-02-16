@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {useGetDevicesQuery, useLazyGetDevicesOnUserQuery} from "../../store/devices/device.api";
+import {useLazyGetDevicesOnUserQuery, useLazyGetDevicesQuery} from "../../store/devices/device.api";
 import {IDevice} from "../../types/device.types";
 import {useDepartment} from "../../hooks/useDepartment";
 import {Device} from "./components/device";
@@ -12,7 +12,7 @@ export const DevicesList = (): JSX.Element => {
   const [eventListener, setEventListener] = useState<EventSource | null>(null);
   const isAuth = useTypedSelector(state => state.auth.isAuth)
   const department = useDepartment()
-  const {data, isLoading, error} = useGetDevicesQuery({limit: 1000, page: 1, department})
+  const [getDevices, {data, isLoading, error}] = useLazyGetDevicesQuery()
   const [getDevicesOnMe, {data: myDevices, isSuccess: isMyDevicesSuccess}] = useLazyGetDevicesOnUserQuery()
   const currentUser = useTypedSelector(state => state.auth.user)
   const devices = useTypedSelector(state => state.devices.devices)
@@ -26,10 +26,11 @@ export const DevicesList = (): JSX.Element => {
   } = useActions()
 
   useEffect(() => {
+    getDevices({limit: 1000, page: 1, department})
     if (isAuth) {
       getDevicesOnMe("")
     }
-  }, [getDevicesOnMe, isAuth])
+  }, [department, getDevices, getDevicesOnMe, isAuth])
 
   useEffect(() => {
     if (data) {
