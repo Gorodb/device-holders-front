@@ -7,14 +7,14 @@ import styles from './layout.module.scss';
 import Header from "./header";
 import Footer from "./footer";
 import {useActions} from "../../hooks/useActions";
-import {useUserInfoMutation} from "../../store/auth/auth.api";
+import {useLazyUserInfoQuery} from "../../store/auth/auth.api";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {IUser} from "../../types/auth.types";
 import {CookiesEnum} from "../../enums/cookies.enum";
 import {UserRoleEnum} from "../../enums/userRole.enum";
 
 export const Layout = ({ children }: LayoutProps): JSX.Element => {
-  const [getUserInfo, {data, isSuccess}] = useUserInfoMutation()
+  const [getUserInfo, {data, isSuccess}] = useLazyUserInfoQuery()
   const { setUser, setIsAuth, setIsAdmin } = useActions()
   const isAdmin = useTypedSelector(store => store.auth.isAdmin)
   const {id}: IUser = useTypedSelector(store => store.auth.user)

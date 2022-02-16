@@ -11,7 +11,7 @@ export interface IGetDevicesParams {
 }
 
 export interface IDevice {
-  id?: string;
+  id: string;
   name: string;
   osName: string;
   inventoryNumber?: string;
@@ -22,6 +22,7 @@ export interface IDevice {
   deviceType?: IDeviceType;
   owner?: IUser;
   heldByUser?: IUser;
+  previousUser?: IUser;
 }
 
 export interface ICreateDevice {

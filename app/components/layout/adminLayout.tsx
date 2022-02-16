@@ -8,7 +8,7 @@ import Footer from "./footer";
 import AdminSidebar from "./adminSidebar";
 import AdminHeader from "./adminHeader";
 import {useActions} from "../../hooks/useActions";
-import {useUserInfoMutation} from "../../store/auth/auth.api";
+import {useLazyUserInfoQuery} from "../../store/auth/auth.api";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {IUser} from "../../types/auth.types";
 import {CookiesEnum} from "../../enums/cookies.enum";
@@ -22,7 +22,7 @@ export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
   const {setUser, setIsAuth, setIsAdmin} = useActions()
   const {id}: IUser = useTypedSelector(store => store.auth.user)
   const breadcrumbs = useTypedSelector((state) => state.breadcrumbs.breadcrumbs)
-  const [getUserInfo, {data, isSuccess, isLoading, status}] = useUserInfoMutation()
+  const [getUserInfo, {data, isSuccess, isLoading, status}] = useLazyUserInfoQuery()
 
   useEffect(() => {
     const isAuthToken = !!Cookies.get(CookiesEnum.authorisation)

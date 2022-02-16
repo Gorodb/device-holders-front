@@ -12,10 +12,13 @@
 .thead {
   border: none;
   background-color: var(--table-head-bg);
-  color: var(--table-head-text);
 
   &:hover {
     background-color: var(--table-head-bg-hover);
+  }
+
+  * {
+    color: var(--table-head-text);
   }
 }
 

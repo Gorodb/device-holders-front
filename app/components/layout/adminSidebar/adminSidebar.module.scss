@@ -2,7 +2,10 @@
   display: grid;
   grid-template-rows: 60px 1fr;
   background: var(--admin-menu);
-  color: var(--admin-menu-text);
+
+  * {
+    color: var(--admin-menu-text);
+  }
 }
 
 .adminHead {

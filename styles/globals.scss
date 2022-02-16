@@ -22,27 +22,18 @@
   font-style: normal;
 }
 
-html,
-body {
+* {
+  font-family: RostelecomBasis, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   padding: 0;
   margin: 0;
-  color: var(--text);
-  font-family: RostelecomBasis, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
   box-sizing: border-box;
+  text-decoration: none;
+  color: var(--text);
 }
 
 table {
   border-spacing: unset;
-
 }
 
 th, tr, td {
@@ -74,6 +65,18 @@ th, td {
 
 .active {
   font-weight: 500;
+  color: var(--admin-menu-text-hover);
+
+  &:after {
+    content: "";
+    display: inline-block;
+    margin-left: 5px;
+    height: 6px;
+    width: 6px;
+    border-top: 1px solid var(--admin-menu-text-hover);
+    border-right: 1px solid var(--admin-menu-text-hover);
+    transform: rotate(45deg);
+  }
 }
 
 .prev a {
@@ -187,8 +190,8 @@ th, td {
   --alert-text-success: #fffdfb;
   --alert-text-error: #fbfdff;
 
-  --table-head-bg: #a6a4a0;
-  --table-head-bg-hover: #918e89;
+  --table-head-bg: #8d8b88;
+  --table-head-bg-hover: #7a7873;
   --table-row: #fffdfb;
   --table-secondary-row: #f6f5f1;
   --table-row-hover: #e3e0d6;

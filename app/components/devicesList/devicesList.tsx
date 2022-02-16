@@ -1,9 +1,11 @@
+import {useEffect} from "react";
+
 import {useGetDevicesQuery, useLazyGetDevicesOnUserQuery} from "../../store/devices/device.api";
 import {IDevice} from "../../types/device.types";
 import {useDepartment} from "../../hooks/useDepartment";
 import {Device} from "./components/device";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import {useEffect} from "react";
+import styles from "./devicesList.module.scss";
 
 export const DevicesList = (): JSX.Element => {
   const isAuth = useTypedSelector(state => state.auth.isAuth)
@@ -27,7 +29,7 @@ export const DevicesList = (): JSX.Element => {
 
   const devicesOnMe = (
     <div>
-      Взятые мной устройства:
+      <h3 className={styles.title}>Взятые мной устройства:</h3>
       {
         isMyDevicesSuccess
         && myDevices
@@ -37,15 +39,15 @@ export const DevicesList = (): JSX.Element => {
   )
 
   const allDevices = (
-    <div>
-      Все устройства
+    <div className={styles.allDevicesTitle}>
+      <h3 className={styles.title}>Все устройства:</h3>
       {data && data.items.map((device: IDevice): JSX.Element => <Device device={device} key={device.id}/>)}
     </div>
   )
 
   return (
     <div>
-      {isAuth && devicesOnMe}
+      {isAuth && myDevices && myDevices.items.length > 0 && devicesOnMe}
       {allDevices}
     </div>
   )

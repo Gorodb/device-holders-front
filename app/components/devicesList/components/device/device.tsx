@@ -1,8 +1,75 @@
-import styles from './device.module.scss'
+import cn from "classnames";
+
+import styles from './device.module.scss';
 import {DeviceProps} from "./device.props";
+import {useTypedSelector} from "../../../../hooks/useTypedSelector";
+import {useEffect, useState} from "react";
+import {Button, ButtonTypes} from "../../../htmlTags";
+import {
+  useReturnDeviceMutation,
+  useReturnDeviceToPreviousMutation,
+  useTakeDeviceMutation
+} from "../../../../store/devices/device.api";
 
 export const Device = ({device}: DeviceProps): JSX.Element => {
+  const [isTaken, setIsTaken] = useState<boolean>(false)
+  const [isReturnToPrev, setIsReturnToPrev] = useState<boolean>(false)
+  const currentUser = useTypedSelector(state => state.auth.user)
+  const [takeDevice] = useTakeDeviceMutation()
+  const [returnDevice] = useReturnDeviceMutation()
+  const [returnDeviceToPrev] = useReturnDeviceToPreviousMutation()
+
+  useEffect(() => {
+    if (currentUser && device.heldByUser) {
+      if (device.heldByUser.id === currentUser.id) {
+        setIsTaken(true)
+      }
+
+      if (device.heldByUser.id === currentUser.id && device.previousUser) {
+        setIsReturnToPrev(true)
+      }
+    } else {
+      setIsTaken(false)
+      setIsReturnToPrev(false)
+    }
+  }, [currentUser, device])
+
+  const takeDeviceHandler = () => {
+    takeDevice({device: device.id})
+  }
+
+  const returnDeviceHandler = () => {
+    returnDevice({device: device.id})
+  }
+
+  const returnDeviceToPrevHandler = () => {
+    returnDeviceToPrev({device: device.id})
+  }
+
   return (
-    <div className={styles.deviceContainer}>{device.name} | {device.deviceType!.description}</div>
+    <div className={styles.deviceContainer}>
+      <div className={styles.info}>
+        <div><span className={styles.title}>Название: </span>{device.name}</div>
+        <div><span className={styles.title}>Операционная система: </span>{device.osName}</div>
+      </div>
+      <div className={styles.info}>
+        <div>
+          <span className={styles.title}>Местонахождение: </span>
+          <span
+            className={styles.text}>{device.heldByUser && device.heldByUser.location ? device.heldByUser.location : device.defaultLocation}</span>
+        </div>
+        {device.heldByUser && <div>
+          <span className={styles.title}>Устройство у пользователя: </span>
+          {device.heldByUser.name}
+        </div>}
+      </div>
+      <div className={styles.buttons}>
+        {isTaken && <i onClick={returnDeviceHandler} className={cn(styles.icon, styles.return)}/>}
+        {isTaken && isReturnToPrev
+          && <i onClick={returnDeviceToPrevHandler} className={cn(styles.icon, styles.returnToPrev)}/>
+        }
+        {currentUser.id && !isTaken && <Button onClick={takeDeviceHandler} buttonType={ButtonTypes.white}>Взять</Button>}
+      </div>
+    </div>
   )
 }
