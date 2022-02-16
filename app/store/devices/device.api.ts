@@ -68,7 +68,6 @@ export const deviceApi = createApi({
           crossDomain: true,
           responseType: "json"
         }),
-        invalidatesTags: ['Get', 'GetMy'],
       }),
       returnDevice: builder.mutation<any, IDeviceHolders>({
         query: (body: IDeviceHolders) => ({
@@ -78,7 +77,6 @@ export const deviceApi = createApi({
           crossDomain: true,
           responseType: "json"
         }),
-        invalidatesTags: ['Get', 'GetMy'],
       }),
       returnDeviceToPrevious: builder.mutation<any, IDeviceHolders>({
         query: (body: IDeviceHolders) => ({
@@ -88,7 +86,6 @@ export const deviceApi = createApi({
           crossDomain: true,
           responseType: "json",
         }),
-        invalidatesTags: ['Get', 'GetMy'],
       }),
     }
   }
@@ -96,6 +93,7 @@ export const deviceApi = createApi({
 
 export const {
   useGetDevicesQuery,
+  useLazyGetDevicesQuery,
   useLazyGetDevicesOnUserQuery,
   useGetDeviceQuery,
   useLazyGetDeviceQuery,

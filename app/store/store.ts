@@ -8,6 +8,7 @@ import {usersApi} from "./users/users.api";
 import {modalReducer} from "./modal/modal.slice";
 import {pushReducer} from "./alerts/alerts.slice";
 import {deviceTypesApi} from "./deviceTypes/deviceTypes.api";
+import {devicesReducer} from "./devices/devices.slice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     breadcrumbs: breadcrumbsReducer,
     auth: authReducer,
     push: pushReducer,
+    devices: devicesReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({
     serializableCheck: false

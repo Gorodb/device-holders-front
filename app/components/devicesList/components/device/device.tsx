@@ -21,18 +21,13 @@ export const Device = ({device}: DeviceProps): JSX.Element => {
 
   useEffect(() => {
     if (currentUser && device.heldByUser) {
-      if (device.heldByUser.id === currentUser.id) {
-        setIsTaken(true)
-      }
-
-      if (device.heldByUser.id === currentUser.id && device.previousUser) {
-        setIsReturnToPrev(true)
-      }
+      setIsTaken(device.heldByUser.id === currentUser.id)
+      setIsReturnToPrev(device.heldByUser.id === currentUser.id && !!device.previousUser)
     } else {
       setIsTaken(false)
       setIsReturnToPrev(false)
     }
-  }, [currentUser, device])
+  }, [currentUser, device.previousUser, device.heldByUser])
 
   const takeDeviceHandler = () => {
     takeDevice({device: device.id})
