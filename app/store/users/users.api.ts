@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {build} from 'search-params';
-import {IUser, IUserCreate, IUsers} from "../../types/auth.types";
+import {ICurrentUserUpdate, IUser, IUserCreate, IUsers} from "../../types/auth.types";
 import {IPaginateParams} from "../../types/pagination.types";
 import {headersUtils} from "../../utils/headers.utils";
 
@@ -63,6 +63,15 @@ export const usersApi = createApi({
         }),
         invalidatesTags: ['Get', 'GetUser'],
       }),
+      updateCurrent: builder.mutation<any, ICurrentUserUpdate>({
+        query: (body: ICurrentUserUpdate) => ({
+          url: `users/update_user`,
+          method: "PATCH",
+          body,
+          crossDomain: true,
+          responseType: "json"
+        }),
+      }),
       deleteUsers: builder.mutation<any, string>({
         query: (id: string) => ({
           url: `users/${id}`,
@@ -82,5 +91,6 @@ export const {
   useUploadPhotoMutation,
   useUpdateUsersMutation,
   useCreateUsersMutation,
-  useDeleteUsersMutation
+  useDeleteUsersMutation,
+  useUpdateCurrentMutation,
 } = usersApi;

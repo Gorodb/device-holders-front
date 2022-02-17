@@ -67,9 +67,13 @@ export const Device = ({device}: DeviceProps): JSX.Element => {
         </div>}
       </div>
       <div className={styles.buttons}>
-        {isTaken && <i onClick={returnDeviceHandler} className={cn(styles.icon, styles.return)}/>}
+        {isTaken && <span className={styles.returnContainer}>
+          <i onClick={returnDeviceHandler} className={cn(styles.icon, styles.return)}/>
+        </span>}
         {isTaken && isReturnToPrev
-          && <i onClick={returnDeviceToPrevHandler} className={cn(styles.icon, styles.returnToPrev)}/>
+          && <span className={styles.returnToPrevContainer}>
+            <i onClick={returnDeviceToPrevHandler} className={cn(styles.icon, styles.returnToPrev)}/>
+          </span>
         }
         {currentUser.id && !isTaken &&
           <Button onClick={takeDeviceHandler} buttonType={ButtonTypes.white}>Взять</Button>}

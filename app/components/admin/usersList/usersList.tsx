@@ -20,7 +20,7 @@ import {CircleLoader, CircleTypes} from "../../loaders";
 import {clearObject} from "../../../utils/jsonCleaner";
 import {ALink} from "../../aLink";
 
-const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
+const imgPrefix = process.env.NEXT_PUBLIC_IMG_URL
 
 export const UsersList = (): JSX.Element => {
   const router = useRouter();

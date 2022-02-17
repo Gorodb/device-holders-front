@@ -42,6 +42,18 @@
   margin-left: 20px;
   mask-repeat: no-repeat;
   position: relative;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.returnContainer {
+  @include tooltip("Вернуть", -2px);
+}
+
+.returnToPrevContainer {
+  @include tooltip("Вернуть предыдущему", -75px);
 }
 
 .return {

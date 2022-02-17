@@ -7,6 +7,11 @@ export interface IAuthCredentials {
   password: string;
 }
 
+export interface ILogo {
+  url: string;
+  name: string;
+}
+
 export interface IRegCredentials {
   email: string;
   password: string;
@@ -26,7 +31,29 @@ export interface IUser {
   phone?: any;
   description?: any;
   department?: IDepartment;
-  logo?: any;
+  logo?: ILogo;
+}
+
+export interface ICurrentUser {
+  id?: string;
+  email: string;
+  name?: string;
+  location?: string;
+  phone?: any;
+  description?: any;
+  department?: IDepartment;
+  logo?: ILogo | null;
+}
+
+export interface ICurrentUserUpdate {
+  id?: string;
+  email: string;
+  name?: string;
+  location?: string;
+  phone?: any;
+  description?: any;
+  department?: string;
+  logo?: ILogo | null;
 }
 
 export interface IUserCreate {
@@ -38,7 +65,7 @@ export interface IUserCreate {
   phone?: any;
   description?: any;
   department?: string;
-  logo?: any;
+  logo?: ILogo;
   password?: string
 }
 

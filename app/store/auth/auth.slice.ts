@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IUser} from "../../types/auth.types";
+import {ICurrentUser} from "../../types/auth.types";
 
 interface IAuthState {
   isAdmin: boolean,
   isAuth: boolean,
-  user: IUser;
+  user: ICurrentUser;
 }
 
 const initialState = {
@@ -23,7 +23,7 @@ export const authSlice = createSlice({
     setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
-    setUser: (state, action: PayloadAction<IUser>) => {
+    setUser: (state, action: PayloadAction<ICurrentUser>) => {
       state.user = action.payload;
     },
   },

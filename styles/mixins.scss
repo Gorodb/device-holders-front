@@ -16,3 +16,38 @@
     margin-right: 8px;
   }
 }
+
+@mixin tooltip($text, $positionX) {
+  position: relative;
+
+  &:hover:before {
+    content: "";
+    z-index: 1;
+    position: absolute;
+    background-color: var(--black);
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    top: -18px;
+    left: 30px;
+  }
+
+  &:hover:after {
+    content: $text;
+    z-index: 2;
+    display: flex;
+    max-width: 150px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: 300;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 10px;
+    color: var(--white);
+    background-color: var(--black);
+    position: absolute;
+    top: -48px;
+    left: $positionX;
+  }
+}
