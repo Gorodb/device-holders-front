@@ -16,6 +16,10 @@
   }
 }
 
+.departmentLink {
+  text-transform: capitalize;
+}
+
 @media (max-width: 765px) {
   .header {
     grid-template-columns: 1fr;

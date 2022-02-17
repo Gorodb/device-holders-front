@@ -5,7 +5,7 @@ import {NavLinkProps} from "./navLink.props";
 export const NavLink = ({ href, exact = false, children, className, ...props }: NavLinkProps): JSX.Element => {
   const { pathname } = useRouter();
 
-  if (pathname === href) {
+  if (pathname.includes(href)) {
     className += ' active';
   }
 

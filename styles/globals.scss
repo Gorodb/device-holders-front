@@ -71,6 +71,7 @@ th, td {
     content: "";
     display: inline-block;
     margin-left: 5px;
+    margin-bottom: 1px;
     height: 6px;
     width: 6px;
     border-top: 1px solid var(--admin-menu-text-hover);
@@ -172,7 +173,7 @@ th, td {
   --pagination-text: #6b6b6b;
   --pagination-border: #d3d3d3;
 
-  --admin-menu: #1e5032;
+  --admin-menu: #456348;// #1e5032;
   --admin-dark: #2d4034;
   --admin-menu-text: #e4e1d6;
   --admin-menu-text-hover: #f6f2e8;

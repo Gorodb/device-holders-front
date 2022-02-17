@@ -7,6 +7,7 @@ import {Device} from "./components/device";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import styles from "./devicesList.module.scss";
 import {useActions} from "../../hooks/useActions";
+import {EventsEnum} from "../../types/events.types";
 
 export const DevicesList = (): JSX.Element => {
   const [eventListener, setEventListener] = useState<EventSource | null>(null);
@@ -55,12 +56,6 @@ export const DevicesList = (): JSX.Element => {
 
   if (eventListener) {
     eventListener.onmessage = ({data}) => {
-      enum EventsEnum {
-        returnToPrevious = 'returnToPrevious',
-        return = 'return',
-        take = 'take',
-      }
-
       try {
         const {event, device}: { event: EventsEnum, device: IDevice } = JSON.parse(data)
         if (event === EventsEnum.take) {

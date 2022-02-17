@@ -61,6 +61,10 @@ export const Device = ({device}: DeviceProps): JSX.Element => {
           <span className={styles.title}>Устройство у пользователя: </span>
           {device.heldByUser.name}
         </div>}
+        {device.previousUser && <div>
+          <span className={styles.title}>Предыдущий пользователь: </span>
+          {device.previousUser.name}
+        </div>}
       </div>
       <div className={styles.buttons}>
         {isTaken && <i onClick={returnDeviceHandler} className={cn(styles.icon, styles.return)}/>}
