@@ -5,3 +5,20 @@
 .allDevicesTitle {
   margin-top: 30px;
 }
+
+.filtersBlock {
+  margin: 5px 0 15px 0;
+  display: grid;
+  grid-template-columns: 300px 300px auto;
+  grid-gap: 20px;
+}
+
+.searchInput {
+  color: var(--text);
+  border-radius: 4px;
+  padding: 10px 8px;
+}
+
+.select {
+  color: var(--text);
+}

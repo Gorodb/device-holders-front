@@ -3,9 +3,9 @@
   display: block;
   appearance: none;
   height: 40px;
-  padding: 5px 20px 5px 10px;
+  padding: 5px 38px 5px 10px;
   color: var(--secondary-text);
-  border: 1px solid var(--stroke-secondary);
+  border: 1px solid var(--gray-light);
   border-radius: 3px;
   outline: none;
   text-overflow: ellipsis;
@@ -15,8 +15,20 @@
   background-size: .65em auto, 100%;
 }
 
+.defaultText {
+  color: var(--text-addition) !important;
+}
+
 .label {
   color: var(--admin-text);
+}
+
+.selectContainer {
+  position: relative;
+}
+
+.icon {
+  @include crossIcon;
 }
 
 .requiredInfo {

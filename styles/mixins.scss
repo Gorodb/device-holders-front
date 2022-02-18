@@ -51,3 +51,34 @@
     left: $positionX;
   }
 }
+
+@mixin crossIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 25px;
+  height: 14px;
+  width: 14px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: 7px;
+    border-bottom: 2px solid var(--admin-text);
+    width: 12px;
+    height: 12px;
+    transform: rotate(315deg);
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -1px;
+    border-bottom: 2px solid var(--admin-text);
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg);
+  }
+}

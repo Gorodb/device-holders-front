@@ -39,7 +39,7 @@ export const UserLk = (): JSX.Element => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
   const setAlert = useAlerts()
   const [upload, {data: imgUploadData, isSuccess: isSuccessUpload}] = useUploadPhotoMutation()
-  const [updateUser, {isSuccess: isUserUpdated, isError: isErrorUserUpdate, error: updateError}] = useUpdateCurrentMutation()
+  const [updateUser, {isSuccess: isUserUpdated, isError: isErrorUserUpdate, error: updateError, reset}] = useUpdateCurrentMutation()
   const [userInfo] = useLazyUserInfoQuery()
   const {options} = useDepartmentsOptions({page: 1, limit: 1000})
   const router = useRouter()
@@ -53,17 +53,13 @@ export const UserLk = (): JSX.Element => {
 
   useEffect(() => {
     if (isUserUpdated) {
+      reset()
       setAlert({text: 'Пользовательские данные сохранены', type: AlertsTypesEnum.success}, 3000)
+      userInfo("")
     } else if (isErrorUserUpdate && updateError) {
       setAlert({text: `Проблемы при обновлении: `, type: AlertsTypesEnum.error}, 3000)
     }
-  }, [isErrorUserUpdate, isUserUpdated, setAlert, updateError])
-
-  useEffect(() => {
-    if (isUserUpdated) {
-      userInfo("")
-    }
-  }, [isUserUpdated, userInfo])
+  }, [isErrorUserUpdate, isUserUpdated, reset, setAlert, updateError, userInfo])
 
   useEffect(() => {
     setIsDisabled(!changedUser.department || !changedUser.name || !changedUser.email)
@@ -118,32 +114,32 @@ export const UserLk = (): JSX.Element => {
             name="name"
             onClear={() => setChangedUser({...changedUser, name: ""})}
             onChange={onChangeInput}
-            label='Имя пользователя'
+            label='Имя'
             type="text"
             value={changedUser.name || ""}
-            placeholder="Введите имя пользователя"
+            placeholder="Введите своей имя"
             isRequired={true}
           />
           <Input
             name="location"
             onClear={() => setChangedUser({...changedUser, location: ""})}
             onChange={onChangeInput}
-            label='Расположение пользователя'
+            label='Как вас найти?'
             type="text"
             value={changedUser.location || ""}
-            placeholder="Введите место расположения"
+            placeholder="Введите свое место расположения"
           />
           <Textarea
             name="description"
             onChange={onChangeTextArea}
-            label='Описание пользователя'
+            label='О себе'
             value={changedUser.description || ""}
-            placeholder="Введите описание пользователя"
+            placeholder="Напишите пару слов о себе"
           />
           {
             changedUser.logo &&
             <div className={styles.avatarContainer}>
-              <div>Аватар пользователя</div>
+              <div>Аватар</div>
               <div className={styles.avatar}>
                 <Image width={200} height={200} src={imgPrefix + changedUser.logo.url} alt="avatar"/>
                 <div className={styles.loadAnother} onClick={() => {
@@ -176,7 +172,7 @@ export const UserLk = (): JSX.Element => {
           }
         </div>
         <div className={styles.rightColumn}>
-          <form autoComplete="off" className={styles.form}>
+          <div className={styles.form}>
             <Input
               name="phone"
               value={changedUser.phone || ""}
@@ -184,11 +180,10 @@ export const UserLk = (): JSX.Element => {
               onClear={() => setChangedUser({...changedUser, phone: null})}
               label='Телефон'
               type="text"
-              placeholder="Введите номер пользователя"
+              placeholder="Укажите свой номер"
             />
             <Input
               name="email"
-              autoComplete="new-password"
               value={changedUser.email || ""}
               onChange={onChangeInput}
               onClear={() => setChangedUser({...changedUser, email: ""})}
@@ -203,7 +198,7 @@ export const UserLk = (): JSX.Element => {
               defaultOptionText="Выбор подразделения"
               isRequired={true}
             >{options}</AdminSelect>}
-          </form>
+          </div>
         </div>
       </div>
       <div className={styles.buttonsBlock}>

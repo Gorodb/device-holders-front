@@ -10,7 +10,6 @@ import AdminHeader from "./adminHeader";
 import {useActions} from "../../hooks/useActions";
 import {useLazyUserInfoQuery} from "../../store/auth/auth.api";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import {IUser} from "../../types/auth.types";
 import {CookiesEnum} from "../../enums/cookies.enum";
 import {UserRoleEnum} from "../../enums/userRole.enum";
 import Breadcrumbs from "../breadcrumbs";
@@ -20,9 +19,9 @@ import {Alert} from "../alert";
 export const AdminLayout = ({ children }: LayoutProps): JSX.Element => {
   const router = useRouter();
   const {setUser, setIsAuth, setIsAdmin} = useActions()
-  const {id}: IUser = useTypedSelector(store => store.auth.user)
+  const {id} = useTypedSelector(store => store.auth.user)
   const breadcrumbs = useTypedSelector((state) => state.breadcrumbs.breadcrumbs)
-  const [getUserInfo, {data, isSuccess, isLoading, status}] = useLazyUserInfoQuery()
+  const [getUserInfo, {data, isSuccess, status}] = useLazyUserInfoQuery()
 
   useEffect(() => {
     const isAuthToken = !!Cookies.get(CookiesEnum.authorisation)

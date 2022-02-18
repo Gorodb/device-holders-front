@@ -57,7 +57,7 @@ export const Header = ({className, isAdmin, ...props}: HeaderProps): JSX.Element
           <Link href={authData.href}>
             <a className={styles.menuItem} onClick={authData.onClick}>{authData.text}</a>
           </Link>
-          {user && <div className={styles.userAvatar} onClick={() => router.push("/lk")}>{avatar}</div>}
+          {isAuth && <div className={styles.userAvatar} onClick={() => router.push("/lk")}>{avatar}</div>}
         </div>
       </NoSsr>
     </header>

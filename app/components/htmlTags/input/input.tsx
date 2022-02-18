@@ -20,15 +20,15 @@ export const Input = ({inputRef, onClear, label, isRequired, requiredText, ...pr
     ? (
       <span className={styles.passwordInputBlock}>
         <input
-          {...props}
           ref={inputRef}
           type={shown ? "text" : "password"}
-          className={cn(styles.input, styles.passwordInput)} />
+          {...props}
+          className={cn(styles.input, styles.passwordInput, props.className)} />
         {eye}
       </span>
     ) : (
       <div className={styles.inputContainer}>
-        <input ref={inputRef} {...props} className={styles.input} />
+        <input ref={inputRef} {...props} className={cn(styles.input, props.className)} />
         {onClear && props.value && <i className={styles.clearIcon} onClick={onClear}/>}
       </div>
     )

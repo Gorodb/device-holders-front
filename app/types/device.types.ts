@@ -7,7 +7,8 @@ export interface IGetDevicesParams {
   limit: number;
   page: number;
   search?: string;
-  department?: string
+  department?: string;
+  type?: string;
 }
 
 export interface IDevice {

@@ -5,7 +5,7 @@
   height: 40px;
   padding: 5px 38px 5px 10px;
   color: var(--admin-text);
-  border: 1px solid var(--stroke-secondary);
+  border: 1px solid var(--gray-light);
   border-radius: 3px;
   outline: none;
   text-overflow: ellipsis;
@@ -28,35 +28,9 @@
   margin-bottom: 4px;
   color: var(--admin-text);
 }
-.icon {
-  position: absolute;
-  cursor: pointer;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 25px;
-  height: 14px;
-  width: 14px;
 
-  &:before {
-    content: "";
-    position: absolute;
-    top: -4px;
-    right: 7px;
-    border-bottom: 2px solid var(--admin-text);
-    width: 12px;
-    height: 12px;
-    transform: rotate(315deg);
-  }
-  &:after {
-    content: "";
-    position: absolute;
-    top: -4px;
-    right: -1px;
-    border-bottom: 2px solid var(--admin-text);
-    width: 12px;
-    height: 12px;
-    transform: rotate(45deg);
-  }
+.icon {
+  @include crossIcon;
 }
 
 .requiredInfo {
