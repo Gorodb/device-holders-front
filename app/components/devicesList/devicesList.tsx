@@ -1,6 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react";
 
-import {useGetDevicesQuery, useLazyGetDevicesOnUserQuery, useLazyGetDevicesQuery} from "../../store/devices/device.api";
+import {useGetDevicesQuery, useLazyGetDevicesOnUserQuery} from "../../store/devices/device.api";
 import {IDevice} from "../../types/device.types";
 import {useDepartment} from "../../hooks/useDepartment";
 import {Device} from "./components/device";
@@ -121,7 +121,7 @@ export const DevicesList = (): JSX.Element => {
         <Select
           className={styles.select}
           value={deviceType}
-          defaultOptionText="Выберите тип устройства"
+          defaultOptionText="Фильтрация по типу устройства"
           onChange={onChooseOption}
           onClear={() => setDeviceType("")}
         >

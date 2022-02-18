@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react'
+import {useState, useEffect, useRef, Dispatch, SetStateAction, Ref} from 'react'
 
 type TypeOut = {
 	ref: any
@@ -6,13 +6,17 @@ type TypeOut = {
 	setIsShow: Dispatch<SetStateAction<boolean>>
 }
 
-export const useOutside = (initialIsVisible: boolean): TypeOut => {
-	const [isShow, setIsShow] = useState(initialIsVisible)
+export const useOutside = (customRefs: Ref<any>[]): TypeOut => {
+	const [isShow, setIsShow] = useState(false)
 	const ref = useRef<HTMLElement>(null)
 
 	const handleClickOutside = (event: any) => {
+		console.log(event.target)
 		if (ref.current && !ref.current.contains(event.target)) {
-			setIsShow(false)
+			// @ts-ignore
+			if (!customRefs.find(ref => ref.current === event.target)) {
+				setIsShow(false)
+			}
 		}
 	}
 
