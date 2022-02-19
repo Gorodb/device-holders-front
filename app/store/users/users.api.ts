@@ -87,6 +87,7 @@ export const usersApi = createApi({
 
 export const {
   useGetUsersQuery,
+  useLazyGetUsersQuery,
   useLazyGetUserQuery,
   useUploadPhotoMutation,
   useUpdateUsersMutation,

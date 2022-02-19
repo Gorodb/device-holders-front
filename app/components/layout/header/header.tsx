@@ -11,13 +11,11 @@ import {useTypedSelector} from "../../../hooks/useTypedSelector";
 import {useRouter} from "next/router";
 import {AvatarDropdown} from "../../avatarDropdown";
 import {useOutside} from "../../../hooks/useOutside";
-import {useRef} from "react";
 
 const imgPrefix = process.env.NEXT_PUBLIC_IMG_URL
 
 export const Header = ({className, isAdmin, ...props}: HeaderProps): JSX.Element => {
-  const containerRef = useRef(null)
-  const {ref, isShow, setIsShow} = useOutside([containerRef]);
+  const {ref, isShow, setIsShow} = useOutside();
   const [isAuth, deleteAccessToken] = useAuthorisation();
   const department = useDepartmentJson();
   const user = useTypedSelector(state => state.auth.user);
@@ -42,9 +40,7 @@ export const Header = ({className, isAdmin, ...props}: HeaderProps): JSX.Element
         }
       </div>
       {
-        isShow && <AvatarDropdown
-          refEl={containerRef}
-          elements={dropElements}/>
+        isShow && <AvatarDropdown elements={dropElements}/>
       }
     </div>
   )

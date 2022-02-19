@@ -18,6 +18,8 @@ import {AlertsTypesEnum} from "../../../store/alerts/alerts.slice";
 import {useAlerts} from "../../../hooks/useAlerts";
 import {useDepartmentsOptions} from "../../../hooks/useDepartmentsOptions";
 import {useDeviceTypesOptions} from "../../../hooks/useDeviceTypesOptions";
+import {AutosuggestInput} from "../autosuggestInput";
+import {useUsersAutosuggestList} from "../../../hooks/useUsers";
 
 const emptyDevice: IDevice = {
   id: "",
@@ -30,10 +32,10 @@ const emptyDevice: IDevice = {
   department: undefined,
   deviceType: undefined,
   owner: undefined,
-  heldByUser: undefined,
 };
 
 export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
+  const [getDevice, {data, isSuccess, isLoading, error}] = useLazyGetDeviceQuery()
   const [isDisabled, setIsDisabled] = useState<boolean>(true)
   const [device, setDevice] = useState<IDevice>(emptyDevice)
   const [deviceToUpdate, setDeviceToUpdate] = useState<ICreateDevice>({
@@ -41,11 +43,10 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
     department: "",
     deviceType: "",
     owner: null,
-    heldByUser: null
   })
+  const {users, searchUsers, selectedUser} = useUsersAutosuggestList(deviceToUpdate.owner || "")
   const {setBreadcrumbs} = useActions()
   const setAlert = useAlerts()
-  const [getDevice, {data, isSuccess, isLoading, error}] = useLazyGetDeviceQuery()
   const [updateDevice, {
     isSuccess: isDeviceUpdated,
     isError: isErrorDeviceUpdate,
@@ -67,6 +68,12 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
   const router = useRouter()
 
   useEffect(() => {
+    if (selectedUser) {
+      setDeviceToUpdate({...deviceToUpdate, owner: selectedUser.id})
+    }
+  }, [selectedUser])
+
+  useEffect(() => {
     if (id && id !== 'create') {
       getDevice(id)
     } else if (isDepartmentsSuccess && departments && departments.items[0].id) {
@@ -75,10 +82,10 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
         department: departments.items[0].id,
         deviceType: "",
         owner: null,
-        heldByUser: null
       })
     }
   }, [setDeviceToUpdate, departments, getDevice, id, isDepartmentsSuccess])
+
   useEffect(() => {
     if (data && isSuccess && !isLoading) {
       setDevice(data)
@@ -87,7 +94,6 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
         department: data.department ? data.department.id : "",
         deviceType: data.deviceType ? data.deviceType.id : "",
         owner: data.owner ? data.owner.id : null,
-        heldByUser: data.heldByUser ? data.heldByUser.id : null
       })
     }
   }, [isSuccess, data, isLoading, device])
@@ -165,6 +171,14 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
     setDeviceToUpdate({...deviceToUpdate, [event.target.name]: event.target.value})
   }
 
+
+  const onChangeAutosuggestInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const data = event.target.value;
+    searchUsers(data)
+
+    setDeviceToUpdate({...deviceToUpdate, owner: event.target.value})
+  }
+
   if (isLoading) {
     return <CircleLoader type={CircleTypes.dark}/>
   }
@@ -225,24 +239,14 @@ export const DevicePage = ({id}: DevicePageProps): JSX.Element => {
               placeholder="Укажите название ОС"
               isRequired={true}
             />
-            <Input
+            <AutosuggestInput
               name="owner"
               onClear={() => setDeviceToUpdate({...deviceToUpdate, owner: null})}
-              onChange={onChangeNullableInput}
+              onChange={onChangeAutosuggestInput}
               label='Id владельца устройства'
               type="text"
               value={deviceToUpdate.owner || ""}
-              placeholder="Укажите id владельца устройства"
-            />
-            <Input
-              name="heldByUser"
-              onClear={() => setDeviceToUpdate({...deviceToUpdate, heldByUser: null})}
-              onChange={onChangeNullableInput}
-              label='Id держателя устройства'
-              type="text"
-              value={deviceToUpdate.heldByUser || ""}
-              placeholder="Укажите id держателя устройства"
-            />
+              placeholder="Укажите id владельца устройства">{users}</AutosuggestInput>
             {deviceTypesOptions && <AdminSelect
               name="deviceType"
               label="Тип устройства"

@@ -10,3 +10,7 @@ export interface IPaginateParams {
   limit: number;
   page: number;
 }
+
+export interface ISearchPaginate extends IPaginateParams{
+  search?: string;
+}

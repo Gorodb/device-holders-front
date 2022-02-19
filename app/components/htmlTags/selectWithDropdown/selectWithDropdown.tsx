@@ -14,7 +14,7 @@ export const SelectWithDropdown = ({
   filterFunction,
 }: SelectWithDropdownProps): JSX.Element => {
   const [filter, setFilter] = useState<string | null>(null)
-  const { ref, isShow, setIsShow } = useOutside(false);
+  const { ref, isShow, setIsShow } = useOutside();
 
   const onFilterArrowClick = () => {
     setIsShow(!isShow)

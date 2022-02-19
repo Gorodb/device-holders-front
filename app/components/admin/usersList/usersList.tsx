@@ -49,7 +49,9 @@ export const UsersList = (): JSX.Element => {
     const columns = ["id", "logo", "email", "name", "department"]
     const tableData = data && data.items.map((user: IUser) => {
       const id = (
-        <div className={styles.idColumnData}>{user.id}</div>
+        <ALink href={`/admin/users/${user.id}`}>
+          <div className={styles.idColumnData}>{user.id}</div>
+        </ALink>
       )
       const logo = user.logo ? (
         <ALink href={`/admin/users/${user.id}`}>

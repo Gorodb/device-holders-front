@@ -37,7 +37,6 @@ export interface ICreateDevice {
   department?: string;
   deviceType?: string;
   owner?: string | null;
-  heldByUser?: string | null;
 }
 
 export interface IDevices {

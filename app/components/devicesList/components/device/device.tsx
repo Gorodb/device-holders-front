@@ -46,6 +46,7 @@ export const Device = ({device}: DeviceProps): JSX.Element => {
       <div className={styles.info}>
         <div><span className={styles.title}>Название: </span>{device.name}</div>
         <div><span className={styles.title}>Операционная система: </span>{device.osName}</div>
+        <div><span className={styles.title}>Инвентаризационный номер: </span>{device.inventoryNumber || "не заполнен"}</div>
       </div>
       <div className={styles.info}>
         <div>
