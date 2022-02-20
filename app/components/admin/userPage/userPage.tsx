@@ -17,7 +17,7 @@ import {
 } from "../../../store/users/users.api";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {Button, ButtonTypes, Input, Textarea} from "../../htmlTags";
-import {IUserCreate} from "../../../types/auth.types";
+import {ILogo, IUserCreate} from "../../../types/auth.types";
 import {ImageCrop} from "../imageCrop";
 import AdminSelect from "../adminSelect";
 import {useDepartmentsOptions} from "../../../hooks/useDepartmentsOptions";
@@ -33,7 +33,7 @@ const emptyUser = {
   "role": "user",
   "phone": null,
   "description": "",
-  "logo": null,
+  "logo": undefined,
   "department": "",
   "password": "",
   "location": ""
@@ -209,14 +209,14 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
             placeholder="Введите описание пользователя"
           />
           {
-            user.logo && user.logo !== {} &&
+            user.logo &&
             <div className={styles.avatarContainer}>
               <div>Аватар пользователя</div>
               <div className={styles.avatar}>
                 <Image width={200} height={200} src={imgPrefix + user.logo.url} alt="avatar"/>
                 <div className={styles.loadAnother} onClick={() => {
                   setImages([])
-                  setUser({...user, logo: null})
+                  setUser({...user, logo: undefined})
                 }}/>
               </div>
             </div>
