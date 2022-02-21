@@ -17,13 +17,14 @@ import {
 } from "../../../store/users/users.api";
 import {CircleLoader, CircleTypes} from "../../loaders";
 import {Button, ButtonTypes, Input, Textarea} from "../../htmlTags";
-import {ILogo, IUserCreate} from "../../../types/auth.types";
+import {IUserCreate} from "../../../types/auth.types";
 import {ImageCrop} from "../imageCrop";
 import AdminSelect from "../adminSelect";
 import {useDepartmentsOptions} from "../../../hooks/useDepartmentsOptions";
 import styles from './userPage.module.scss';
 import {AlertsTypesEnum} from "../../../store/alerts/alerts.slice";
 import {useAlerts} from "../../../hooks/useAlerts";
+import NoSsr from "../NoSsr/noSsr";
 
 const imgPrefix = process.env.NEXT_PUBLIC_API_URL + '/static/'
 const emptyUser = {
@@ -48,8 +49,17 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   const setAlert = useAlerts()
   const [getUser, {data, isSuccess, isLoading, error}] = useLazyGetUserQuery()
   const [upload, {data: imgUploadData, isSuccess: isSuccessUpload}] = useUploadPhotoMutation()
-  const [updateUser, {isSuccess: isUserUpdated, isError: isErrorUserUpdate, error: updateError}] = useUpdateUsersMutation()
-  const [createUser, {data: createdUser, isSuccess: isUserCreated, isError: isErrorUserCreate, error: createUserError}] = useCreateUsersMutation()
+  const [updateUser, {
+    isSuccess: isUserUpdated,
+    isError: isErrorUserUpdate,
+    error: updateError
+  }] = useUpdateUsersMutation()
+  const [createUser, {
+    data: createdUser,
+    isSuccess: isUserCreated,
+    isError: isErrorUserCreate,
+    error: createUserError
+  }] = useCreateUsersMutation()
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
   const {options, data: departments, isSuccess: isDepartmentsSuccess} = useDepartmentsOptions({page: 1, limit: 1000})
   const router = useRouter()
@@ -179,133 +189,135 @@ export const UserPage = ({id}: UserPageProps): JSX.Element => {
   }
 
   return (
-    <div>
-      <div className={styles.container}>
-        <div className={styles.block}>
-          <Input
-            name="name"
-            onClear={() => setUser({...user, name: ""})}
-            onChange={onChangeInput}
-            label='Имя пользователя'
-            type="text"
-            value={user.name || ""}
-            placeholder="Введите имя пользователя"
-            isRequired={true}
-          />
-          <Input
-            name="location"
-            onClear={() => setUser({...user, location: ""})}
-            onChange={onChangeInput}
-            label='Расположение пользователя'
-            type="text"
-            value={user.location || ""}
-            placeholder="Введите место расположения"
-          />
-          <Textarea
-            name="description"
-            onChange={onChangeTextArea}
-            label='Описание пользователя'
-            value={user.description || ""}
-            placeholder="Введите описание пользователя"
-          />
-          {
-            user.logo &&
-            <div className={styles.avatarContainer}>
-              <div>Аватар пользователя</div>
-              <div className={styles.avatar}>
-                <Image width={200} height={200} src={imgPrefix + user.logo.url} alt="avatar"/>
-                <div className={styles.loadAnother} onClick={() => {
-                  setImages([])
-                  setUser({...user, logo: undefined})
-                }}/>
-              </div>
-            </div>
-          }
-          {
-            !images.length && !user.logo && <DropZone
-              dropZoneText="Перетащите сюда изображение или кликнете для выбора"
-              value={images}
-              onChange={(imageList: ImageListType) => setImages(imageList)}
-            />
-          }
-          {
-            images && images.length > 0 && images[0].data_url &&
-            <>
-              <ImageCrop
-                image={images[0].data_url}
-                onCropComplete={onCropComplete}
-              />
-              <div className={styles.imageCropButtonsContainer}>
-                <Button buttonType={ButtonTypes.black} onClick={showCroppedImage}>Загрузить изображение</Button>
-                <Button buttonType={ButtonTypes.error} onClick={() => setImages([])}>Удалить изображение</Button>
-                {imageUploadError && <div className={styles.uploadError}>{imageUploadError}</div>}
-              </div>
-            </>
-          }
-        </div>
-        <div className={styles.rightColumn}>
-          <form autoComplete="off" className={styles.form}>
+    <NoSsr>
+      <div>
+        <div className={styles.container}>
+          <div className={styles.block}>
             <Input
-              name="phone"
-              value={user.phone || ""}
-              onChange={onChangePhone}
-              onClear={() => setUser({...user, phone: null})}
-              label='Телефон'
-              type="text"
-              placeholder="Введите номер пользователя"
-            />
-            <Input
-              name="email"
-              autoComplete="new-password"
-              value={user.email || ""}
+              name="name"
+              onClear={() => setUser({...user, name: ""})}
               onChange={onChangeInput}
-              onClear={() => setUser({...user, email: ""})}
-              label='Email'
-              type="email"
-              placeholder="Введите email"
+              label='Имя пользователя'
+              type="text"
+              value={user.name || ""}
+              placeholder="Введите имя пользователя"
               isRequired={true}
             />
             <Input
-              name="password"
-              autoComplete="new-password"
-              onChange={onChangePasswordInput}
-              onClear={onPasswordInputClear}
-              label='Пароль'
-              type="password"
-              placeholder="Введите пароль"
-              isRequired={id === 'create' && !user.password}
+              name="location"
+              onClear={() => setUser({...user, location: ""})}
+              onChange={onChangeInput}
+              label='Расположение пользователя'
+              type="text"
+              value={user.location || ""}
+              placeholder="Введите место расположения"
             />
-            <AdminSelect
-              name="role"
-              label="Тип учетной записи"
-              className={styles.select}
-              value={user.role}
-              onChange={onChangeSelect}
-            >
-              <option value={'user'}>Пользователь</option>
-              <option value={'admin'}>Админ</option>
-            </AdminSelect>
-            {options && <AdminSelect
-              label="Подразделение"
-              value={user.department}
-              onChange={onDepartmentSelect}
-              defaultOptionText="Выбор подразделения"
-              isRequired={true}
-            >{options}</AdminSelect>}
-          </form>
+            <Textarea
+              name="description"
+              onChange={onChangeTextArea}
+              label='Описание пользователя'
+              value={user.description || ""}
+              placeholder="Введите описание пользователя"
+            />
+            {
+              user.logo &&
+              <div className={styles.avatarContainer}>
+                <div>Аватар пользователя</div>
+                <div className={styles.avatar}>
+                  <img className={styles.image} src={imgPrefix + user.logo.url} alt="avatar"/>
+                  <div className={styles.loadAnother} onClick={() => {
+                    setImages([])
+                    setUser({...user, logo: undefined})
+                  }}/>
+                </div>
+              </div>
+            }
+            {
+              !images.length && !user.logo && <DropZone
+                dropZoneText="Перетащите сюда изображение или кликнете для выбора"
+                value={images}
+                onChange={(imageList: ImageListType) => setImages(imageList)}
+              />
+            }
+            {
+              images && images.length > 0 && images[0].data_url &&
+              <>
+                <ImageCrop
+                  image={images[0].data_url}
+                  onCropComplete={onCropComplete}
+                />
+                <div className={styles.imageCropButtonsContainer}>
+                  <Button buttonType={ButtonTypes.black} onClick={showCroppedImage}>Загрузить изображение</Button>
+                  <Button buttonType={ButtonTypes.error} onClick={() => setImages([])}>Удалить изображение</Button>
+                  {imageUploadError && <div className={styles.uploadError}>{imageUploadError}</div>}
+                </div>
+              </>
+            }
+          </div>
+          <div className={styles.rightColumn}>
+            <form autoComplete="off" className={styles.form}>
+              <Input
+                name="phone"
+                value={user.phone || ""}
+                onChange={onChangePhone}
+                onClear={() => setUser({...user, phone: null})}
+                label='Телефон'
+                type="text"
+                placeholder="Введите номер пользователя"
+              />
+              <Input
+                name="email"
+                autoComplete="new-password"
+                value={user.email || ""}
+                onChange={onChangeInput}
+                onClear={() => setUser({...user, email: ""})}
+                label='Email'
+                type="email"
+                placeholder="Введите email"
+                isRequired={true}
+              />
+              <Input
+                name="password"
+                autoComplete="new-password"
+                onChange={onChangePasswordInput}
+                onClear={onPasswordInputClear}
+                label='Пароль'
+                type="password"
+                placeholder="Введите пароль"
+                isRequired={id === 'create' && !user.password}
+              />
+              <AdminSelect
+                name="role"
+                label="Тип учетной записи"
+                className={styles.select}
+                value={user.role}
+                onChange={onChangeSelect}
+              >
+                <option value={'user'}>Пользователь</option>
+                <option value={'admin'}>Админ</option>
+              </AdminSelect>
+              {options && <AdminSelect
+                label="Подразделение"
+                value={user.department}
+                onChange={onDepartmentSelect}
+                defaultOptionText="Выбор подразделения"
+                isRequired={true}
+              >{options}</AdminSelect>}
+            </form>
+          </div>
+        </div>
+        <div className={styles.buttonsBlock}>
+          <Button buttonType={ButtonTypes.black} isDisabled={isDisabled} onClick={() => {
+            if (id !== 'create') {
+              updateUser(user)
+            } else {
+              createUser(user)
+            }
+          }}>Сохранить</Button>
+          <Button buttonType={ButtonTypes.white} onClick={() => router.push("/admin/users")}>Отмена</Button>
         </div>
       </div>
-      <div className={styles.buttonsBlock}>
-        <Button buttonType={ButtonTypes.black} isDisabled={isDisabled} onClick={() => {
-          if (id !== 'create') {
-            updateUser(user)
-          } else {
-            createUser(user)
-          }
-        }}>Сохранить</Button>
-        <Button buttonType={ButtonTypes.white} onClick={() => router.push("/admin/users")}>Отмена</Button>
-      </div>
-    </div>
+    </NoSsr>
   )
 }
 

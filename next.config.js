@@ -8,11 +8,14 @@ const nextConfig = {
   env: {
     BASE_URL: process.env.BASE_URL,
   },
-  images: { domains: ['*', 'localhost'] },
+  images: {domains: ['localhost', '10.50.168.65', '10.50.168.65:3001']},
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "mixins";`
-  }
+  },
+  experimental: {
+    outputStandalone: true,
+  },
 }
 
 module.exports = withPlugins([withSvgr], nextConfig)

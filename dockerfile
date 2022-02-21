@@ -1,14 +1,38 @@
-FROM node:16.2-alpine
-ARG APP_DIR=/apt/app/device-mon-frontend
-EXPOSE 4000:4000
+FROM node:16-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-RUN mkdir -p $APP_DIR
-WORKDIR $APP_DIR
+# Rebuild the source code only when needed
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-COPY . $APP_DIR
-ENV NODE_PATH /usr/lib/node_modules
-RUN yarn
 RUN yarn build
-RUN npm prune --production
-RUN chmod -Rf 777 .
-CMD ["yarn","start"]
+
+# Production image, copy all the files and run next
+FROM node:16-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 4000
+EXPOSE 3001
+
+ENV PORT 4000
+
+CMD ["node", "server.js"]

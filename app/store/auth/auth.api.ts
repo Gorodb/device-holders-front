@@ -76,10 +76,6 @@ export const authApi = createApi({
             responseType: "json",
           }
         },
-        transformResponse: (response: IAuthResult) => {
-          Cookies.set(CookiesEnum.authorisation, response.accessToken, {expires: 365})
-          return response
-        }
       })
     }
   }

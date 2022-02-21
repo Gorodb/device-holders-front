@@ -29,6 +29,7 @@ export const Registration = (): JSX.Element => {
   useEffect(() => {
     if (isSuccess) {
       setUser({ email })
+      localStorage.setItem('email', email);
       router.push('/inputCode')
     }
   }, [email, isSuccess, router, setUser])
@@ -72,9 +73,7 @@ export const Registration = (): JSX.Element => {
     })
   }
 
-  const errorMessage = errors && <Span size={SpanSizeEnum.medium} className={styles.errorMessage}>
-    {errors.map((e, i) => <div key={i}>{e}</div>)}
-  </Span>
+  const errorMessage = errors && errors.map((e, i) => <div key={i} className={styles.errorMessage}>{e}</div>)
 
   return (
     <div>
@@ -88,7 +87,7 @@ export const Registration = (): JSX.Element => {
           {errorMessage}
           {!isPasswordMatch && <div className={styles.errorMessage}>Пароли не совпадают</div>}
           <Button onClick={onSubmit} buttonType={ButtonTypes.black} isFullSize={true}
-                  isDisabled={isDisabled}>Войти</Button>
+                  isDisabled={isDisabled}>Зарегистрироваться</Button>
           <div className={styles.regBlock}>
             <Span size={SpanSizeEnum.small}>
               Уже зарегистрирован?

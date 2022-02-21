@@ -56,7 +56,7 @@ export const UsersList = (): JSX.Element => {
       const logo = user.logo ? (
         <ALink href={`/admin/users/${user.id}`}>
           <div className={styles.img}>
-            <Image layout="fill" src={imgPrefix + user.logo.url} alt="preview"/>
+            <img className={styles.image} src={imgPrefix + user.logo.url} alt="preview"/>
           </div>
         </ALink>
       ) : ''

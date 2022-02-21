@@ -21,8 +21,8 @@ export const Input = ({inputRef, onClear, label, isRequired, requiredText, ...pr
       <span className={styles.passwordInputBlock}>
         <input
           ref={inputRef}
-          type={shown ? "text" : "password"}
           {...props}
+          type={shown ? "text" : "password"}
           className={cn(styles.input, styles.passwordInput, props.className)} />
         {eye}
       </span>

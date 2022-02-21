@@ -62,8 +62,8 @@ export const Authorisation = (): JSX.Element => {
       <Span className={styles.title} size={SpanSizeEnum.large}>Авторизация</Span>
     </div>
     <form className={styles.form}>
-      <Input name='email' type='text' onChange={onChange} label='Email'/>
-      <Input name='password' type='password' onChange={onChange} label='Пароль'/>
+      <Input placeholder="Введите email" name='email' type='text' onChange={onChange} label='Email'/>
+      <Input placeholder="Введите пароль" name='password' type='password' onChange={onChange} label='Пароль'/>
       <Link href='/forgotPassword'><a className={styles.forgotPassword}>Напомнить пароль</a></Link>
       {button}
       { isError && errorMessage }

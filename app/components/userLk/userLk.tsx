@@ -1,7 +1,6 @@
 import {ChangeEvent, useCallback, useEffect, useState} from "react";
 import {DropZone} from "../admin/dropZone";
 import {ImageListType} from "react-images-uploading/dist/typings";
-import Image from "next/image";
 import {Area} from "react-easy-crop/types";
 import {useRouter} from "next/router";
 
@@ -18,6 +17,7 @@ import {AlertsTypesEnum} from "../../store/alerts/alerts.slice";
 import {useAlerts} from "../../hooks/useAlerts";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {CircleLoader, CircleTypes} from "../loaders";
+import NoSsr from "../admin/NoSsr/noSsr";
 
 const imgPrefix = process.env.NEXT_PUBLIC_IMG_URL;
 
@@ -28,7 +28,7 @@ export const UserLk = (): JSX.Element => {
     email: "",
     name: "",
     location: "",
-    phone: "",
+    phone: null,
     description: "",
     department: "",
     logo: null
@@ -39,7 +39,12 @@ export const UserLk = (): JSX.Element => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
   const setAlert = useAlerts()
   const [upload, {data: imgUploadData, isSuccess: isSuccessUpload}] = useUploadPhotoMutation()
-  const [updateUser, {isSuccess: isUserUpdated, isError: isErrorUserUpdate, error: updateError, reset}] = useUpdateCurrentMutation()
+  const [updateUser, {
+    isSuccess: isUserUpdated,
+    isError: isErrorUserUpdate,
+    error: updateError,
+    reset
+  }] = useUpdateCurrentMutation()
   const [userInfo] = useLazyUserInfoQuery()
   const {options} = useDepartmentsOptions({page: 1, limit: 1000})
   const router = useRouter()
@@ -53,11 +58,12 @@ export const UserLk = (): JSX.Element => {
 
   useEffect(() => {
     if (isUserUpdated) {
-      reset()
       setAlert({text: 'Пользовательские данные сохранены', type: AlertsTypesEnum.success}, 3000)
       userInfo("")
+      reset()
     } else if (isErrorUserUpdate && updateError) {
       setAlert({text: `Проблемы при обновлении: `, type: AlertsTypesEnum.error}, 3000)
+      reset()
     }
   }, [isErrorUserUpdate, isUserUpdated, reset, setAlert, updateError, userInfo])
 
@@ -102,109 +108,119 @@ export const UserLk = (): JSX.Element => {
     setChangedUser({...changedUser, [event.target.name]: event.target.value})
   }
 
+  const onChangePhone = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
+    const phone = event.target.value ? event.target.value : null
+    setChangedUser({...changedUser, phone})
+  }
+
   if (!user) {
-    return <CircleLoader type={CircleTypes.dark} />
+    return <CircleLoader type={CircleTypes.dark}/>
   }
 
   return (
-    <div>
-      <div className={styles.container}>
-        <div className={styles.block}>
-          <Input
-            name="name"
-            onClear={() => setChangedUser({...changedUser, name: ""})}
-            onChange={onChangeInput}
-            label='Имя'
-            type="text"
-            value={changedUser.name || ""}
-            placeholder="Введите своей имя"
-            isRequired={true}
-          />
-          <Input
-            name="location"
-            onClear={() => setChangedUser({...changedUser, location: ""})}
-            onChange={onChangeInput}
-            label='Как вас найти?'
-            type="text"
-            value={changedUser.location || ""}
-            placeholder="Введите свое место расположения"
-          />
-          <Textarea
-            name="description"
-            onChange={onChangeTextArea}
-            label='О себе'
-            value={changedUser.description || ""}
-            placeholder="Напишите пару слов о себе"
-          />
-          {
-            changedUser.logo &&
-            <div className={styles.avatarContainer}>
-              <div>Аватар</div>
-              <div className={styles.avatar}>
-                <Image width={200} height={200} src={imgPrefix + changedUser.logo.url} alt="avatar"/>
-                <div className={styles.loadAnother} onClick={() => {
-                  setImages([])
-                  setChangedUser({...changedUser, logo: null})
-                }}/>
-              </div>
-            </div>
-          }
-          {
-            !images.length && !changedUser.logo && <DropZone
-              dropZoneText="Перетащите сюда изображение или кликнете для выбора"
-              value={images}
-              onChange={(imageList: ImageListType) => setImages(imageList)}
-            />
-          }
-          {
-            images && images.length > 0 && images[0].data_url &&
-            <>
-              <ImageCrop
-                image={images[0].data_url}
-                onCropComplete={onCropComplete}
-              />
-              <div className={styles.imageCropButtonsContainer}>
-                <Button buttonType={ButtonTypes.black} onClick={showCroppedImage}>Загрузить изображение</Button>
-                <Button buttonType={ButtonTypes.error} onClick={() => setImages([])}>Удалить изображение</Button>
-                {imageUploadError && <div className={styles.uploadError}>{imageUploadError}</div>}
-              </div>
-            </>
-          }
-        </div>
-        <div className={styles.rightColumn}>
-          <div className={styles.form}>
+    <NoSsr>
+      <div>
+        <div className={styles.container}>
+          <div className={styles.block}>
             <Input
-              name="phone"
-              value={changedUser.phone || ""}
+              name="name"
+              onClear={() => setChangedUser({...changedUser, name: ""})}
               onChange={onChangeInput}
-              onClear={() => setChangedUser({...changedUser, phone: null})}
-              label='Телефон'
+              label='Имя'
               type="text"
-              placeholder="Укажите свой номер"
+              value={changedUser.name || ""}
+              placeholder="Введите своей имя"
+              isRequired={true}
             />
             <Input
-              name="email"
-              value={changedUser.email || ""}
+              name="location"
+              onClear={() => setChangedUser({...changedUser, location: ""})}
               onChange={onChangeInput}
-              onClear={() => setChangedUser({...changedUser, email: ""})}
-              label='Email'
-              type="email"
-              isRequired={true}
+              label='Как вас найти?'
+              type="text"
+              value={changedUser.location || ""}
+              placeholder="Введите свое место расположения"
             />
-            {options && <AdminSelect
-              label="Подразделение"
-              value={changedUser.department || ""}
-              onChange={onDepartmentSelect}
-              defaultOptionText="Выбор подразделения"
-              isRequired={true}
-            >{options}</AdminSelect>}
+            <Textarea
+              name="description"
+              onChange={onChangeTextArea}
+              label='О себе'
+              value={changedUser.description || ""}
+              placeholder="Напишите пару слов о себе"
+            />
+            {
+              changedUser.logo &&
+              <div className={styles.avatarContainer}>
+                <div>Аватар</div>
+                <div className={styles.avatar}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className={styles.image} src={imgPrefix + changedUser.logo.url} alt="avatar"/>
+                  <div className={styles.loadAnother} onClick={() => {
+                    setImages([])
+                    setChangedUser({...changedUser, logo: null})
+                  }}/>
+                </div>
+              </div>
+            }
+            {
+              !images.length && !changedUser.logo && <DropZone
+                dropZoneText="Перетащите сюда изображение или кликнете для выбора"
+                value={images}
+                onChange={(imageList: ImageListType) => setImages(imageList)}
+              />
+            }
+            {
+              images && images.length > 0 && images[0].data_url &&
+              <>
+                <ImageCrop
+                  image={images[0].data_url}
+                  onCropComplete={onCropComplete}
+                />
+                <div className={styles.imageCropButtonsContainer}>
+                  <Button buttonType={ButtonTypes.black} onClick={showCroppedImage}>Загрузить изображение</Button>
+                  <Button buttonType={ButtonTypes.error} onClick={() => setImages([])}>Удалить изображение</Button>
+                  {imageUploadError && <div className={styles.uploadError}>{imageUploadError}</div>}
+                </div>
+              </>
+            }
+          </div>
+          <div className={styles.rightColumn}>
+            <div className={styles.form}>
+              <Input
+                name="phone"
+                value={changedUser.phone || ""}
+                onChange={onChangePhone}
+                onClear={() => setChangedUser({...changedUser, phone: null})}
+                label='Телефон'
+                type="text"
+                placeholder="Укажите свой номер"
+              />
+              <Input
+                name="email"
+                value={changedUser.email || ""}
+                onChange={onChangeInput}
+                onClear={() => setChangedUser({...changedUser, email: ""})}
+                label='Email'
+                type="email"
+                isRequired={true}
+              />
+              {options && <AdminSelect
+                label="Подразделение"
+                value={changedUser.department || ""}
+                onChange={onDepartmentSelect}
+                defaultOptionText="Выбор подразделения"
+                isRequired={true}
+              >{options}</AdminSelect>}
+            </div>
           </div>
         </div>
+        <div className={styles.buttonsBlock}>
+          <Button buttonType={ButtonTypes.black} isDisabled={isDisabled}
+                  onClick={() => updateUser(changedUser)}>Сохранить</Button>
+          <Button buttonType={ButtonTypes.white} onClick={() => router.push("/")}>К списку устройств</Button>
+        </div>
       </div>
-      <div className={styles.buttonsBlock}>
-        <Button buttonType={ButtonTypes.black} isDisabled={isDisabled} onClick={() => updateUser(changedUser)}>Сохранить</Button>
-        <Button buttonType={ButtonTypes.white} onClick={() => router.push("/")}>К списку устройств</Button>
-      </div>
-    </div>
+    </NoSsr>
   )
 }

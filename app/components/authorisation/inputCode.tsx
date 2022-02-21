@@ -27,6 +27,7 @@ export const InputCode = (): JSX.Element => {
 
   useEffect(() => {
     if (isSuccess) {
+      localStorage.removeItem('email');
       Cookies.remove(CookiesEnum.accessToken)
       router.push('/')
     }
@@ -48,8 +49,9 @@ export const InputCode = (): JSX.Element => {
   }
 
   const onResendCodeHandle = () => {
+    const sendingEmail = email ? email : localStorage.getItem("email");
     resendCode({
-      email,
+      email: sendingEmail || "",
       action: ActionsEnum.registration
     })
     reset()

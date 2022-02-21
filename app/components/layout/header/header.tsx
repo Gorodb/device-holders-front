@@ -35,7 +35,7 @@ export const Header = ({className, isAdmin, ...props}: HeaderProps): JSX.Element
       <div className={styles.userAvatar}>
         {
           user.logo
-            ? <Image width={40} height={40} src={imgPrefix + user.logo.url} alt={user.name}/>
+            ? <img className={styles.image} src={imgPrefix + user.logo.url} alt={user.name}/>
             : <i className={styles.avatarIcon}/>
         }
       </div>
