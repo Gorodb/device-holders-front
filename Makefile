@@ -1,5 +1,5 @@
 DOCKER_COMPOSE_FILE := docker-compose.yml
-WEB_BASE_IMAGE_REPOSITORY := registry.restream.ru:5000/ramis-vakazov/device-mon-frontend
+WEB_BASE_IMAGE_REPOSITORY := rvakazov/allure-server:latest
 APP_DIR := /apt/app/device-mon-backend
 
 .PHONY: update-image
@@ -9,4 +9,4 @@ update-image:
 
 .PHONY: copy_env
 copy_env:
-	scp /Users/ramisvakazov/projects/device-holders-front/.env.production root@10.50.168.65:projects/.env.production
+	scp /Users/ramisvakazov/projects/device-holders-front/.env.production root@:projects/.env.production
